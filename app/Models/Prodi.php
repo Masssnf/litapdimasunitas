@@ -5,36 +5,35 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fakultas extends Model
+class Prodi extends Model
 {
     use HasFactory;
 
-    protected $table = 'fakultas';
+    protected $table = 'prodi';
     protected $fillable = [
-        'kode_fakultas',
-        'nama_fakultas',
-        'dekan_fakultas',
-        'email_fakultas',
-        'notelp_fakultas',
-        'status_fakultas',
+        'kode_prodi',
+        'nama_prodi',
+        'jenjang_prodi',
+        'kaprodi',
+        'email_prodi',
+        'notelp_prodi',
+        'status_prodi',
+        'fakultas_id',
     ];
 
-    // RELASI KE TABEL PRODI
-    public function prodi()
+    // Relasi ke tabel Fakultas
+    public function fakultas()
     {
-        return $this->hasMany(Prodi::class);
+        return $this->belongsTo(Fakultas::class);
     }
 
-     // =============================================
-    // 1 & 0 (Aktif/Nonaktif)
-    // =============================================
 
     /**
      * Get status label (Aktif/Nonaktif)
      */
     public function getStatusLabelAttribute()
     {
-        return $this->status_fakultas ? 'Aktif' : 'Nonaktif';
+        return $this->status_prodi ? 'Aktif' : 'Nonaktif';
     }
 
     /**
@@ -42,7 +41,7 @@ class Fakultas extends Model
      */
     public function getStatusBadgeAttribute()
     {
-        if ($this->status_fakultas) {
+        if ($this->status_prodi) {
             return '<span class="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-700">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
                         Aktif
@@ -59,7 +58,7 @@ class Fakultas extends Model
      */
     public function getStatusColorAttribute()
     {
-        return $this->status_fakultas ? 'text-emerald-600' : 'text-rose-600';
+        return $this->status_prodi ? 'text-emerald-600' : 'text-rose-600';
     }
 
     /**
@@ -67,6 +66,6 @@ class Fakultas extends Model
      */
     public function getStatusDotAttribute()
     {
-        return $this->status_fakultas ? 'bg-emerald-500' : 'bg-rose-500';
+        return $this->status_prodi ? 'bg-emerald-500' : 'bg-rose-500';
     }
 }

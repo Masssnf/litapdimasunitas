@@ -52,7 +52,7 @@
 
         <!-- ============================================= -->
         <!-- STATISTIK CARD                                -->
-        <!-- ============================================= -->
+        <!-- ============================================= -->                         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div
                 class="bg-white rounded-2xl shadow-sm border border-gray-100/80 p-5 hover:shadow-md transition-all duration-300">
@@ -124,7 +124,7 @@
             <!-- Toolbar -->
             <div class="px-5 py-3.5 border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
                 <div class="flex items-center space-x-4">
-                    <h1 class="text-2xl font-bold text-indigo-600 tracking-tight">Manajemen Fakultas</h1>
+                    <h1 class="text-2xl font-bold text-indigo-600 tracking-tight">Tabel Data Fakultas</h1>
                 </div>
 
                 <div class="flex items-center space-x-2">

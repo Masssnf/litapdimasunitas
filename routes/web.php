@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FakultasController;
+use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // })->name('dashboard');
 
     Route::resource('fakultas', FakultasController::class);
+    Route::resource('prodi', ProdiController::class);
 });
 
 require __DIR__ . '/auth.php';

@@ -28,8 +28,8 @@ class FakultasController extends Controller
 
         // Statistik
         $total = Fakultas::count();
-        $aktif = Fakultas::where('status_fakultas', true)->count();
-        $nonaktif = Fakultas::where('status_fakultas', false)->count();
+        $aktif = Fakultas::where('status_fakultas',true)->count();
+        $nonaktif = Fakultas::where('status_fakultas',false)->count();
 
         return view('admin.fakultas.index', compact('fakultas', 'total', 'aktif', 'nonaktif'));
         // $fakultas = Fakultas::latest()->paginate(10);
