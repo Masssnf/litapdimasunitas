@@ -25,6 +25,11 @@ class Fakultas extends Model
         return $this->hasMany(Prodi::class);
     }
 
+    public function dosen()
+    {
+        return $this->hasMany(Dosen::class);
+    }
+
      // =============================================
     // 1 & 0 (Aktif/Nonaktif)
     // =============================================

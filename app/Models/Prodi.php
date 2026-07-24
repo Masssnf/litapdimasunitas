@@ -27,6 +27,10 @@ class Prodi extends Model
         return $this->belongsTo(Fakultas::class);
     }
 
+    public function dosen()
+    {
+        return $this->hasMany(Dosen::class);
+    }
 
     /**
      * Get status label (Aktif/Nonaktif)

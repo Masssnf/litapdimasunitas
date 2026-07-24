@@ -3,7 +3,7 @@
     <!-- ============================================= -->
     <!-- HEADER / LOGO                                -->
     <!-- ============================================= -->
-    <div class="p-5 border-b border-white/5">
+    <div class="p-5 border-b border-white/5 flex-shrink-0">
         <div class="flex items-center space-x-3">
             <div
                 class="w-11 h-11 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-lg font-bold text-white shadow-lg shadow-indigo-500/25">
@@ -35,59 +35,101 @@
         <!-- ============================================= -->
         <!-- MASTER DATA (DROPDOWN)                       -->
         <!-- ============================================= -->
-        <div>
-            <!-- Master Data Dropdown -->
-            <div class="relative">
-                <input type="checkbox" id="masterDropdown" class="peer hidden">
+        @php
+            $isMasterActive =
+                request()->routeIs('admin.fakultas.*') ||
+                request()->routeIs('admin.prodi.*') ||
+                request()->routeIs('admin.dosen.*') ||
+                request()->routeIs('admin.reviewer.*') ||
+                request()->routeIs('admin.jenisreviewer.*');
+        @endphp
 
-                <!-- Label / Toggle Dropdown -->
-                <label for="masterDropdown"
-                    class="flex items-center justify-between cursor-pointer py-2.5 px-4 rounded-xl transition-all duration-200 text-gray-300 hover:bg-white/5 hover:text-white {{ request()->routeIs('fakultas.*') || request()->routeIs('prodi.*') ? 'bg-white/5 text-white' : '' }}">
-                    <div class="flex items-center space-x-3">
-                        <i class="fas fa-database w-5 text-center"></i>
-                        <span class="text-sm font-medium">Master Data</span>
-                    </div>
-                    <i
-                        class="fas fa-chevron-down text-xs transition-transform duration-200 peer-checked:rotate-180"></i>
-                </label>
-
-                <!-- Dropdown Menu -->
-                <div class="overflow-hidden max-h-0 peer-checked:max-h-96 transition-all duration-300 ease-in-out">
-                    <div class="ml-4 mt-1 space-y-0.5 border-l-2 border-indigo-500/30 pl-3">
-                        <!-- Fakultas -->
-                        <a href="{{ route('admin.fakultas.index') }}"
-                            class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.fakultas.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
-                            <i class="fas fa-university w-4 text-center"></i>
-                            <span class="text-sm">Fakultas</span>
-                            {{-- <span
-                                class="ml-auto text-[9px] font-semibold bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded-full border border-indigo-500/30">Data</span> --}}
-                        </a>
-
-                        <!-- Program Studi -->
-                        <a href="{{ route('admin.prodi.index') }}"
-                            class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.prodi.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
-                            <i class="fas fa-book-open w-4 text-center"></i>
-                            <span class="text-sm">Program Studi</span>
-                            {{-- <span
-                                class="ml-auto text-[9px] font-semibold bg-green-500/20 text-green-300 px-1.5 py-0.5 rounded-full border border-green-500/30">Data</span> --}}
-                        </a>
-                    </div>
+        <div class="mb-2">
+            <!-- Master Data Header / Toggle -->
+            <div class="flex items-center justify-between cursor-pointer py-2.5 px-4 rounded-xl transition-all duration-200 {{ $isMasterActive ? 'bg-white/5 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+                onclick="toggleMasterDropdown()">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-database w-5 text-center"></i>
+                    <span class="text-sm font-medium">Master Data</span>
                 </div>
+                <i class="fas fa-chevron-down text-xs transition-transform duration-200 {{ $isMasterActive ? 'rotate-180' : '' }}"
+                    id="masterArrow"></i>
+            </div>
+
+            <!-- Dropdown Menu -->
+            <div class="mt-1 space-y-0.5 border-l-2 border-indigo-500/30 pl-3 overflow-hidden transition-all duration-300 ease-in-out"
+                id="masterDropdown"
+                style="max-height: {{ $isMasterActive ? '500px' : '0' }}; opacity: {{ $isMasterActive ? '1' : '0' }}; padding-top: {{ $isMasterActive ? '4px' : '0' }}; pointer-events: {{ $isMasterActive ? 'auto' : 'none' }};">
+
+                <!-- Fakultas -->
+                <a href="{{ route('admin.fakultas.index') }}"
+                    class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.fakultas.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-university w-4 text-center"></i>
+                    <span class="text-sm">Fakultas</span>
+                </a>
+
+                <!-- Program Studi -->
+                <a href="{{ route('admin.prodi.index') }}"
+                    class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.prodi.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-book-open w-4 text-center"></i>
+                    <span class="text-sm">Program Studi</span>
+                </a>
+
+                <!-- Dosen -->
+                <a href="{{ route('admin.dosen.index') }}"
+                    class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.dosen.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-chalkboard-teacher w-4 text-center"></i>
+                    <span class="text-sm">Dosen</span>
+                </a>
+
+                <!-- Divider -->
+                <div class="h-px bg-white/5 my-1 mx-2"></div>
+
+                <!-- Jenis Reviewer -->
+                <a href="{{ route('admin.jenisreviewer.index') }}"
+                    class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.jenisreviewer.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-tags w-4 text-center"></i>
+                    <span class="text-sm">Jenis Reviewer</span>
+                </a>
+
+                <!-- Reviewer -->
+                <a href="{{ route('admin.reviewer.index') }}"
+                    class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.reviewer.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-user-check w-4 text-center"></i>
+                    <span class="text-sm">Reviewer</span>
+                </a>
             </div>
         </div>
+
+        <!-- ============================================= -->
+        <!-- MENU LAINNYA (Jika ada)                      -->
+        <!-- ============================================= -->
+        <!-- Kosongkan atau tambahkan menu lain di sini -->
+
     </nav>
 
     <!-- ============================================= -->
     <!-- FOOTER - USER PROFILE & LOGOUT               -->
     <!-- ============================================= -->
-    <div class="border-t border-white/5 p-4">
+    <div class="border-t border-white/5 p-4 flex-shrink-0">
         <div class="flex items-center space-x-3">
             <div
-                class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-indigo-500/25">
+                class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-indigo-500/25 flex-shrink-0">
                 {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
             </div>
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-white truncate">{{ Auth::user()->name ?? 'User' }}</p>
+                <p class="text-[10px] text-gray-400 truncate">
+                    @php
+                        $roleLabels = [
+                            'superadmin' => 'Super Admin',
+                            'admin' => 'Admin',
+                            'reviewer' => 'Reviewer',
+                            'dosen' => 'Dosen',
+                        ];
+                    @endphp
+                    {{ $roleLabels[Auth::user()->role ?? ''] ?? 'User' }}
+                </p>
             </div>
             <!-- Logout Button -->
             <form method="POST" action="{{ route('logout') }}" class="inline">
@@ -101,3 +143,44 @@
         </div>
     </div>
 </aside>
+
+<!-- ============================================= -->
+<!-- SCRIPT UNTUK TOGGLE DROPDOWN                 -->
+<!-- ============================================= -->
+<script>
+    let isMasterOpen = {{ $isMasterActive ? 'true' : 'false' }};
+
+    function toggleMasterDropdown() {
+        isMasterOpen = !isMasterOpen;
+        const dropdown = document.getElementById('masterDropdown');
+        const arrow = document.getElementById('masterArrow');
+
+        if (isMasterOpen) {
+            dropdown.style.maxHeight = '500px';
+            dropdown.style.opacity = '1';
+            dropdown.style.paddingTop = '4px';
+            dropdown.style.pointerEvents = 'auto';
+            arrow.classList.add('rotate-180');
+        } else {
+            dropdown.style.maxHeight = '0';
+            dropdown.style.opacity = '0';
+            dropdown.style.paddingTop = '0';
+            dropdown.style.pointerEvents = 'none';
+            arrow.classList.remove('rotate-180');
+        }
+    }
+
+    // Saat halaman di-reload, pastikan dropdown tetap terbuka jika aktif
+    document.addEventListener('DOMContentLoaded', function() {
+        @if ($isMasterActive)
+            const dropdown = document.getElementById('masterDropdown');
+            const arrow = document.getElementById('masterArrow');
+            dropdown.style.maxHeight = '500px';
+            dropdown.style.opacity = '1';
+            dropdown.style.paddingTop = '4px';
+            dropdown.style.pointerEvents = 'auto';
+            arrow.classList.add('rotate-180');
+            isMasterOpen = true;
+        @endif
+    });
+</script>

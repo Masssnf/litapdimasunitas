@@ -39,6 +39,18 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
+        /* Memastikan dropdown tidak terpotong */
+        #masterDropdown {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Memberikan ruang scroll yang cukup */
+        nav {
+            scroll-behavior: smooth;
+            padding-bottom: 20px;
+        }
+
         .pagination {
             @apply flex flex-wrap gap-1;
         }

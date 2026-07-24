@@ -91,7 +91,7 @@ class ProdiController extends Controller
      */
     public function edit(string $id)
     {
-        $prodi = Prodi::findOrFail($id);
+        $prodi = Prodi::with('fakultas')->findOrFail($id);
 
         $fakultas = Fakultas::orderBy('nama_fakultas', 'asc')->get();
 

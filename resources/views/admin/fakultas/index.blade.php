@@ -127,7 +127,7 @@
                     <h1 class="text-2xl font-bold text-indigo-600 tracking-tight">Tabel Data Fakultas</h1>
                 </div>
 
-                <div class="flex items-center space-x-2">
+                {{-- <div class="flex items-center space-x-2">
                     <div class="relative">
                         <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -145,6 +145,25 @@
                                 d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                         </svg>
                     </button>
+                </div> --}}
+                <div class="flex items-center space-x-2">
+                    <form method="GET" action="{{ route('admin.fakultas.index') }}" class="flex items-center space-x-2">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari fakultas..."
+                                class="pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400/30 focus:border-indigo-300 focus:bg-white transition-all duration-200 w-40 focus:w-52 text-gray-700 placeholder:text-gray-400">
+                        </div>
+                        <button type="submit"
+                            class="w-9 h-9 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-white transition flex items-center justify-center">
+                            <i class="fas fa-search text-sm"></i>
+                        </button>
+                        @if (request('search'))
+                            <a href="{{ route('admin.fakultas.index') }}"
+                                class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition flex items-center justify-center">
+                                <i class="fas fa-times text-sm"></i>
+                            </a>
+                        @endif
+                    </form>
                 </div>
             </div>
 
