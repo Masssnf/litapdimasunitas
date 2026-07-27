@@ -63,7 +63,8 @@ class JenisReviewerController extends Controller
      */
     public function show(JenisReviewer $jenisreviewer)
     {
-        return view('admin.jenisreviewer.show', compact('jenisreviewer'));
+    $jenisreviewer->load('reviewer');    
+    return view('admin.jenisreviewer.show', compact('jenisreviewer'));
     }
 
     /**

@@ -17,7 +17,7 @@
                 <div class="flex items-center space-x-4">
                     <div
                         class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                        <i class="fas fa-user-check text-white text-2xl"></i>
+                        <i class="fas fa-tags text-white text-2xl"></i>
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-white tracking-tight">Detail Jenis Reviewer</h1>
@@ -32,11 +32,6 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <a href="{{ route('admin.jenisreviewer.edit', $jenisreviewer->id) }}"
-                        class="group relative px-5 py-2.5 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-white/30 transition-all duration-300 flex items-center text-sm border border-white/20">
-                        <i class="fas fa-edit mr-2"></i>
-                        Edit
-                    </a>
                     <a href="{{ route('admin.jenisreviewer.index') }}"
                         class="group relative px-5 py-2.5 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-white/30 transition-all duration-300 flex items-center text-sm border border-white/20">
                         <i class="fas fa-arrow-left mr-2"></i>

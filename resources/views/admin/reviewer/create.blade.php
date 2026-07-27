@@ -17,12 +17,12 @@
                 <div class="flex items-center space-x-4">
                     <div
                         class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                        <i class="fas fa-user-plus text-white text-2xl"></i>
+                        <i class="fas fa-plus-circle text-white text-2xl"></i>
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-white tracking-tight">Tambah Reviewer</h1>
                         <div class="flex items-center space-x-3 mt-0.5">
-                            <span class="text-teal-100 text-sm">Tambahkan data reviewer baru</span>
+                            <span class="text-emerald-100 text-sm">Tambahkan data Reviewer baru</span>
                         </div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
             class="bg-white rounded-2xl shadow-sm border border-gray-100/80 overflow-hidden transition-all hover:shadow-md">
 
             <div class="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-                <div class="w-8 h-8 rounded-xl bg-teal-100 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center">
                     <i class="fas fa-user-check text-teal-600"></i>
                 </div>
                 <div>
@@ -54,213 +54,223 @@
             <form action="{{ route('admin.reviewer.store') }}" method="POST" class="p-6">
                 @csrf
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Kolom Kiri -->
-                    <div class="space-y-4">
-                        <!-- Kode Reviewer -->
-                        <div>
-                            <label for="kode_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                Kode Reviewer <span class="text-rose-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-tag text-gray-400"></i>
-                                </div>
-                                <input type="text" name="kode_reviewer" id="kode_reviewer"
-                                    value="{{ old('kode_reviewer') }}"
-                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('kode_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
-                                    placeholder="Contoh: RV-001" required>
+                <!-- BARIS 1: Kode & Nama Prodi -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="kode_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Kode Reviewer <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-tag text-gray-400"></i>
                             </div>
-                            @error('kode_reviewer')
-                                <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </p>
-                            @enderror
+                            <input type="text" name="kode_reviewer" id="kode_reviewer" value="{{ old('kode_reviewer') }}"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('kode_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
+                                placeholder="Contoh: RV-001" required>
                         </div>
-
-                        <!-- Nama Reviewer -->
-                        <div>
-                            <label for="nama_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                Nama Reviewer <span class="text-rose-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-user text-gray-400"></i>
-                                </div>
-                                <input type="text" name="nama_reviewer" id="nama_reviewer"
-                                    value="{{ old('nama_reviewer') }}"
-                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('nama_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
-                                    placeholder="Contoh: Dr. Ahmad Fauzi, M.Pd" required>
-                            </div>
-                            @error('nama_reviewer')
-                                <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
-
-                        <!-- NIDN -->
-                        <div>
-                            <label for="nidn_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                NIDN
-                            </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-id-card text-gray-400"></i>
-                                </div>
-                                <input type="text" name="nidn_reviewer" id="nidn_reviewer"
-                                    value="{{ old('nidn_reviewer') }}"
-                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('nidn_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
-                                    placeholder="Contoh: 1234567890">
-                            </div>
-                            @error('nidn_reviewer')
-                                <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
-
-                        <!-- Instansi -->
-                        <div>
-                            <label for="instansi_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                Instansi
-                            </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-building text-gray-400"></i>
-                                </div>
-                                <input type="text" name="instansi_reviewer" id="instansi_reviewer"
-                                    value="{{ old('instansi_reviewer') }}"
-                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('instansi_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
-                                    placeholder="Contoh: Universitas Islam Tasikmalaya">
-                            </div>
-                            @error('instansi_reviewer')
-                                <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
+                        @error('kode_reviewer')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
                     </div>
 
-                    <!-- Kolom Kanan -->
-                    <div class="space-y-4">
-                        <!-- Email -->
-                        <div>
-                            <label for="email_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                Email
-                            </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-envelope text-gray-400"></i>
-                                </div>
-                                <input type="email" name="email_reviewer" id="email_reviewer"
-                                    value="{{ old('email_reviewer') }}"
-                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('email_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
-                                    placeholder="Contoh: ahmad@unita.ac.id">
+                    <div>
+                        <label for="nama_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Nama Reviewer <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-gray-400"></i>
                             </div>
-                            @error('email_reviewer')
-                                <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </p>
-                            @enderror
+                            <input type="text" name="nama_reviewer" id="nama_reviewer" value="{{ old('nama_reviewer') }}"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('nama_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
+                                placeholder="Contoh: Dr. Ahmad Fauzi, M.Pd" required>
                         </div>
+                        @error('nama_reviewer')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+                </div>
 
-                        <!-- No Telepon -->
-                        <div>
-                            <label for="notelp_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                No Telepon
-                            </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-phone text-gray-400"></i>
-                                </div>
-                                <input type="text" name="notelp_reviewer" id="notelp_reviewer"
-                                    value="{{ old('notelp_reviewer') }}"
-                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('notelp_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
-                                    placeholder="Contoh: 081234567890">
+                <!-- BARIS 2: Jenjang & Fakultas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div>
+                        <label for="nidn_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            NIDN
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-id-card text-gray-400"></i>
                             </div>
-                            @error('notelp_reviewer')
-                                <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </p>
-                            @enderror
+                            <input type="text" name="nidn_reviewer" id="nidn_reviewer" value="{{ old('nidn_reviewer') }}"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('nidn_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
+                                placeholder="Contoh: 1234567890">
                         </div>
+                        @error('nidn_reviewer')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                        <!-- Jenis Reviewer -->
-                        <div>
-                            <label for="jenisreviewer_id" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                Jenis Reviewer <span class="text-rose-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-tags text-gray-400"></i>
-                                </div>
-                                <select name="jenisreviewer_id" id="jenisreviewer_id"
-                                    class="select2 w-full @error('jenisreviewer_id') border-rose-500 focus:ring-rose-500 @enderror"
-                                    data-placeholder="Pilih Jenis Reviewer" required>
-                                    <option value="">Pilih Jenis Reviewer</option>
-                                    @foreach ($jenisReviewer as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ old('jenisreviewer_id') == $item->id ? 'selected' : '' }}>
-                                            {{ $item->kode_jenisreviewer }} - {{ $item->nama_jenisreviewer }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                    <div>
+                        <label for="instansi_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Instansi
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-building text-gray-400"></i>
                             </div>
-                            @error('jenisreviewer_id')
-                                <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </p>
-                            @enderror
+                            <input type="text" name="instansi_reviewer" id="instansi_reviewer"
+                                value="{{ old('instansi_reviewer') }}"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('instansi_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
+                                placeholder="Contoh: Universitas Islam Tasikmalaya">
                         </div>
+                        @error('instansi_reviewer')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+                </div>
 
-                        <!-- Dosen (Opsional) -->
-                        <div>
-                            <label for="dosen_id" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                Dosen (Opsional)
-                            </label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-chalkboard-teacher text-gray-400"></i>
-                                </div>
-                                <select name="dosen_id" id="dosen_id"
-                                    class="select2 w-full @error('dosen_id') border-rose-500 focus:ring-rose-500 @enderror"
-                                    data-placeholder="Pilih Dosen (Opsional)">
-                                    <option value="">Pilih Dosen (Opsional)</option>
-                                    @foreach ($dosen as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ old('dosen_id') == $item->id ? 'selected' : '' }}>
-                                            {{ $item->nidn }} - {{ $item->nama_dosen }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                <!-- BARIS 3: Kaprodi & Email -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div>
+                        <label for="email_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Email
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400"></i>
                             </div>
-                            @error('dosen_id')
-                                <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </p>
-                            @enderror
+                            <input type="email" name="email_reviewer" id="email_reviewer"
+                                value="{{ old('email_reviewer') }}"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('email_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
+                                placeholder="Contoh: ahmad@unita.ac.id">
                         </div>
+                        @error('email_reviewer')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                        <!-- Status -->
-                        <div>
-                            <label for="status_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                Status <span class="text-rose-500">*</span>
-                            </label>
-                            <select name="status_reviewer" id="status_reviewer" class="select2 w-full"
-                                data-placeholder="Pilih Status" data-allow-clear="false" data-search="-1" required>
-                                <option value="1" {{ old('status_reviewer') == '1' ? 'selected' : '' }}>✅ Aktif
-                                </option>
-                                <option value="0" {{ old('status_reviewer') == '0' ? 'selected' : '' }}>❌ Nonaktif
-                                </option>
+                    <div>
+                        <label for="notelp_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            No Telepon
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-phone text-gray-400"></i>
+                            </div>
+                            <input type="text" name="notelp_reviewer" id="notelp_reviewer"
+                                value="{{ old('notelp_reviewer') }}"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition @error('notelp_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
+                                placeholder="Contoh: 081234567890">
+                        </div>
+                        @error('notelp_reviewer')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+
+                    </div>
+                </div>
+
+                <!-- BARIS 4: No Telepon & Status -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div>
+                        <label for="jenisreviewer_id" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Jenis Reviewer <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-tags text-gray-400"></i>
+                            </div>
+                            <select name="jenisreviewer_id" id="jenisreviewer_id"
+                                class="select2 w-full @error('jenisreviewer_id') border-rose-500 focus:ring-rose-500 @enderror"
+                                data-placeholder="Pilih Jenis Reviewer" required>
+                                <option value="">Pilih Jenis Reviewer</option>
+                                @foreach ($jenisReviewer as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('jenisreviewer_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->kode_jenisreviewer }} - {{ $item->nama_jenisreviewer }}
+                                    </option>
+                                @endforeach
                             </select>
-                            @error('status_reviewer')
-                                <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </p>
-                            @enderror
                         </div>
+                        @error('jenisreviewer_id')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
                     </div>
+
+                    <div>
+                        <label for="dosen_id" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Dosen (Opsional)
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-chalkboard-teacher text-gray-400"></i>
+                            </div>
+                            <select name="dosen_id" id="dosen_id"
+                                class="select2 w-full @error('dosen_id') border-rose-500 focus:ring-rose-500 @enderror"
+                                data-placeholder="Pilih Dosen (Opsional)">
+                                <option value="">Pilih Dosen (Opsional)</option>
+                                @foreach ($dosen as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('dosen_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nidn }} - {{ $item->nama_dosen }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('dosen_id')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label for="status_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Status <span class="text-rose-500">*</span>
+                    </label>
+                    <select name="status_reviewer" id="status_reviewer" class="select2 w-full"
+                        data-placeholder="Pilih Status" data-allow-clear="false" data-search="-1" required>
+                        <option value="1" {{ old('status_reviewer') == '1' ? 'selected' : '' }}>✅ Aktif
+                        </option>
+                        <option value="0" {{ old('status_reviewer') == '0' ? 'selected' : '' }}>❌ Nonaktif
+                        </option>
+                    </select>
+                    @error('status_reviewer')
+                        <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                            <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+                <div class="mt-4">
+                    <label for="alamat_dosen" class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Alamat
+                    </label>
+                    <div class="relative">
+                        <div class="absolute top-3 left-3 pointer-events-none">
+                            <i class="fas fa-map-marker-alt text-gray-400"></i>
+                        </div>
+                        <textarea name="alamat_dosen" id="alamat_dosen" rows="3"
+                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition @error('alamat_dosen') border-rose-500 focus:ring-rose-500 @enderror"
+                            placeholder="Masukkan alamat lengkap dosen">{{ old('alamat_dosen') }}</textarea>
+                    </div>
+                    @error('alamat_dosen')
+                        <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                            <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                        </p>
+                    @enderror
                 </div>
 
                 <!-- Tombol Aksi -->
@@ -271,7 +281,7 @@
                         Batal
                     </a>
                     <button type="submit"
-                        class="px-6 py-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl hover:from-teal-600 hover:to-cyan-600 transition-all duration-200 shadow-md shadow-teal-500/25 hover:shadow-lg hover:shadow-teal-500/30 text-sm font-medium">
+                        class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 shadow-md shadow-emerald-500/25 hover:shadow-lg hover:shadow-emerald-500/30 text-sm font-medium">
                         <i class="fas fa-save mr-2"></i>
                         Simpan Reviewer
                     </button>

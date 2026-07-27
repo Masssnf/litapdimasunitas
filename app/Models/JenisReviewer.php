@@ -18,7 +18,7 @@ class JenisReviewer extends Model
 
     public function reviewer()
     {
-        return $this->hasMany(Reviewer::class);
+        return $this->hasMany(Reviewer::class,'jenisreviewer_id');
     }
 
     /**

@@ -112,20 +112,7 @@
         <!-- Toolbar -->
         <div class="px-5 py-3.5 border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
             <div class="flex items-center space-x-4">
-                <div class="flex items-center space-x-2">
-                    <span class="text-sm text-gray-500">Total:</span>
-                    <span class="text-sm font-bold text-gray-800">{{ $reviewer->total() }}</span>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <span class="flex items-center space-x-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                        <span class="text-xs text-gray-400">Aktif: {{ $aktif }}</span>
-                    </span>
-                    <span class="flex items-center space-x-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
-                        <span class="text-xs text-gray-400">Nonaktif: {{ $nonaktif }}</span>
-                    </span>
-                </div>
+                <h1 class="text-2xl font-bold text-teal-600 tracking-tight">Tabel Data Reviewer</h1>
             </div>
 
             <div class="flex items-center space-x-2">

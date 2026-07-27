@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('instansi_reviewer')->nullable();
             $table->string('email_reviewer')->nullable();
             $table->string('notelp_reviewer')->nullable();
+            $table->text('alamat_reviewer')->nullable();
             $table->boolean('status_reviewer')->default(true);
             $table->foreignId('jenisreviewer_id')->constrained('jenisreviewer')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignId('dosen_id')->nullable()->constrained('dosen')->cascadeOnUpdate()->nullOnDelete();

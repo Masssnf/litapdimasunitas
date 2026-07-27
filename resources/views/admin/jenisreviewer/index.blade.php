@@ -17,7 +17,7 @@
                 <div class="flex items-center space-x-4">
                     <div
                         class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                        <i class="fas fa-user-check text-white text-2xl"></i>
+                        <i class="fas fa-tags text-white text-2xl"></i>
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-white tracking-tight">Manajemen Jenis Reviewer</h1>
@@ -108,20 +108,7 @@
             <!-- Toolbar -->
             <div class="px-5 py-3.5 border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
                 <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm text-gray-500">Total:</span>
-                        <span class="text-sm font-bold text-gray-800">{{ $jenisReviewer->total() }}</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <span class="flex items-center space-x-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            <span class="text-xs text-gray-400">Aktif: {{ $aktif }}</span>
-                        </span>
-                        <span class="flex items-center space-x-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
-                            <span class="text-xs text-gray-400">Nonaktif: {{ $nonaktif }}</span>
-                        </span>
-                    </div>
+                    <h1 class="text-2xl font-bold text-purple-600 tracking-tight">Tabel Data Jenis Reviewer</h1>
                 </div>
 
                 <div class="flex items-center space-x-2">
@@ -208,8 +195,8 @@
                                             <i class="fas fa-edit text-sm group-hover:scale-110 transition"></i>
                                         </a>
 
-                                        <form action="{{ route('admin.jenisreviewer.destroy', $item->id) }}"
-                                            method="POST" class="inline"
+                                        <form action="{{ route('admin.jenisreviewer.destroy', $item->id) }}" method="POST"
+                                            class="inline"
                                             onsubmit="return confirmDelete(this, '{{ $item->nama_jenisreviewer }}')">
                                             @csrf
                                             @method('DELETE')

@@ -17,6 +17,7 @@ class Reviewer extends Model
         'instansi_reviewer',
         'email_reviewer',
         'notelp_reviewer',
+        'alamat_reviewer',
         'status_reviewer',
         'jenisreviewer_id',
         'dosen_id',
@@ -24,7 +25,7 @@ class Reviewer extends Model
 
     public function jenisreviewer()
     {
-        return $this->belongsTo(JenisReviewer::class);
+        return $this->belongsTo(JenisReviewer::class, 'jenisreviewer_id');
     }
 
     public function dosen()
