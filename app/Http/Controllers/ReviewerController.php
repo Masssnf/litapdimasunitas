@@ -67,7 +67,7 @@ class ReviewerController extends Controller
             'instansi_reviewer' => 'nullable|string|max:255',
             'email_reviewer' => 'nullable|email|max:255',
             'notelp_reviewer' => 'nullable|string|max:20',
-            'alamat_reviewer' => 'nullable',
+            'alamat_reviewer' => 'nullable|string|max:255',
             'status_reviewer' => 'required|boolean',
             'jenisreviewer_id' => 'required|exists:jenisreviewer,id',
             'dosen_id' => 'nullable|exists:dosen,id',
@@ -105,13 +105,13 @@ class ReviewerController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'kode_reviewer' => 'required|string|max:20|unique:reviewer,kode_reviewer,' . $reviewer->id,
+            'kode_reviewer' => 'required|string|max:20|unique:reviewer,kode_reviewer,' . $id,
             'nama_reviewer' => 'required|string|max:255',
             'nidn_reviewer' => 'nullable|string|max:20',
             'instansi_reviewer' => 'nullable|string|max:255',
             'email_reviewer' => 'nullable|email|max:255',
             'notelp_reviewer' => 'nullable|string|max:20',
-            'alamat_reviewer' => 'nullable',
+            'alamat_reviewer' => 'nullable|string|max:255',
             'status_reviewer' => 'required|boolean',
             'jenisreviewer_id' => 'required|exists:jenisreviewer,id',
             'dosen_id' => 'nullable|exists:dosen,id',

@@ -55,7 +55,7 @@
                 @csrf
 
                 <!-- BARIS 1: Kode & Nama Prodi -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <label for="kode_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
                             Kode Reviewer <span class="text-rose-500">*</span>
@@ -74,7 +74,34 @@
                             </p>
                         @enderror
                     </div>
-
+                    
+                    <div>
+                        <label for="jenisreviewer_id" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Jenis Reviewer <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-tags text-gray-400"></i>
+                            </div>
+                            <select name="jenisreviewer_id" id="jenisreviewer_id"
+                                class="select2 w-full @error('jenisreviewer_id') border-rose-500 focus:ring-rose-500 @enderror"
+                                data-placeholder="Pilih Jenis Reviewer" required>
+                                <option value="">Pilih Jenis Reviewer</option>
+                                @foreach ($jenisReviewer as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('jenisreviewer_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->kode_jenisreviewer }} - {{ $item->nama_jenisreviewer }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('jenisreviewer_id')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+                    
                     <div>
                         <label for="nama_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
                             Nama Reviewer <span class="text-rose-500">*</span>
@@ -184,30 +211,21 @@
                 <!-- BARIS 4: No Telepon & Status -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div>
-                        <label for="jenisreviewer_id" class="block text-sm font-medium text-gray-700 mb-1.5">
-                            Jenis Reviewer <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-tags text-gray-400"></i>
-                            </div>
-                            <select name="jenisreviewer_id" id="jenisreviewer_id"
-                                class="select2 w-full @error('jenisreviewer_id') border-rose-500 focus:ring-rose-500 @enderror"
-                                data-placeholder="Pilih Jenis Reviewer" required>
-                                <option value="">Pilih Jenis Reviewer</option>
-                                @foreach ($jenisReviewer as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ old('jenisreviewer_id') == $item->id ? 'selected' : '' }}>
-                                        {{ $item->kode_jenisreviewer }} - {{ $item->nama_jenisreviewer }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('jenisreviewer_id')
-                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                            </p>
-                        @enderror
+                        <label for="status_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Status <span class="text-rose-500">*</span>
+                    </label>
+                    <select name="status_reviewer" id="status_reviewer" class="select2 w-full"
+                        data-placeholder="Pilih Status" data-allow-clear="false" data-search="-1" required>
+                        <option value="1" {{ old('status_reviewer') == '1' ? 'selected' : '' }}>✅ Aktif
+                        </option>
+                        <option value="0" {{ old('status_reviewer') == '0' ? 'selected' : '' }}>❌ Nonaktif
+                        </option>
+                    </select>
+                    @error('status_reviewer')
+                        <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                            <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                        </p>
+                    @enderror
                     </div>
 
                     <div>
@@ -238,35 +256,18 @@
                     </div>
                 </div>
                 <div class="mt-4">
-                    <label for="status_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Status <span class="text-rose-500">*</span>
-                    </label>
-                    <select name="status_reviewer" id="status_reviewer" class="select2 w-full"
-                        data-placeholder="Pilih Status" data-allow-clear="false" data-search="-1" required>
-                        <option value="1" {{ old('status_reviewer') == '1' ? 'selected' : '' }}>✅ Aktif
-                        </option>
-                        <option value="0" {{ old('status_reviewer') == '0' ? 'selected' : '' }}>❌ Nonaktif
-                        </option>
-                    </select>
-                    @error('status_reviewer')
-                        <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                            <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                        </p>
-                    @enderror
-                </div>
-                <div class="mt-4">
-                    <label for="alamat_dosen" class="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label for="alamat_reviewer" class="block text-sm font-medium text-gray-700 mb-1.5">
                         Alamat
                     </label>
                     <div class="relative">
                         <div class="absolute top-3 left-3 pointer-events-none">
                             <i class="fas fa-map-marker-alt text-gray-400"></i>
                         </div>
-                        <textarea name="alamat_dosen" id="alamat_dosen" rows="3"
-                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition @error('alamat_dosen') border-rose-500 focus:ring-rose-500 @enderror"
-                            placeholder="Masukkan alamat lengkap dosen">{{ old('alamat_dosen') }}</textarea>
+                        <textarea name="alamat_reviewer" id="alamat_reviewer" rows="3"
+                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition @error('alamat_reviewer') border-rose-500 focus:ring-rose-500 @enderror"
+                            placeholder="Masukkan alamat lengkap reviewer">{{ old('alamat_reviewer') }}</textarea>
                     </div>
-                    @error('alamat_dosen')
+                    @error('alamat_reviewer')
                         <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
                             <i class="fas fa-exclamation-circle"></i> {{ $message }}
                         </p>

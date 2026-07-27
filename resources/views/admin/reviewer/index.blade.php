@@ -187,12 +187,19 @@
                                 </div>
                             </td>
 
-                            <td class="py-3.5 px-5 text-gray-600 text-sm hidden xl:table-cell">
+                            <td class="py-3.5 px-5 text-gray-600 text-sm hidden lg:table-cell">
+                                <div class="flex items-center">
+                                    <i class="fas fa-id-card text-gray-300 mr-2.5 text-xs"></i>
+                                    <span>{{ $item->jenisreviewer->nama_jenisreviewer ?? '-' }}</span>
+                                </div>
+                            </td>
+
+                            {{-- <td class="py-3.5 px-5 text-gray-600 text-sm hidden xl:table-cell">
                                 <div class="flex items-center">
                                     <i class="fas fa-tag text-gray-300 mr-2.5 text-xs"></i>
                                     <span class="truncate max-w-[100px]">{{ $item->jenisreviewer->nama_jenisreviewer ?? '-' }}</span>
                                 </div>
-                            </td>
+                            </td> --}}
 
                             <td class="py-3.5 px-5 text-gray-600 text-sm hidden xl:table-cell">
                                 <div class="flex items-center">
