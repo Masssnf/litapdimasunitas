@@ -41,7 +41,9 @@
                 request()->routeIs('admin.prodi.*') ||
                 request()->routeIs('admin.dosen.*') ||
                 request()->routeIs('admin.reviewer.*') ||
-                request()->routeIs('admin.jenisreviewer.*');
+                request()->routeIs('admin.jenisreviewer.*') ||
+                request()->routeIs('admin.jenisskema.*') ||
+                request()->routeIs('admin.skema.*');
         @endphp
 
         <div class="mb-2">
@@ -61,6 +63,9 @@
                 id="masterDropdown"
                 style="max-height: {{ $isMasterActive ? '500px' : '0' }}; opacity: {{ $isMasterActive ? '1' : '0' }}; padding-top: {{ $isMasterActive ? '4px' : '0' }}; pointer-events: {{ $isMasterActive ? 'auto' : 'none' }};">
 
+                <!-- ============================================= -->
+                <!-- DATA AKADEMIK                               -->
+                <!-- ============================================= -->
                 <!-- Fakultas -->
                 <a href="{{ route('admin.fakultas.index') }}"
                     class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.fakultas.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
@@ -85,6 +90,9 @@
                 <!-- Divider -->
                 <div class="h-px bg-white/5 my-1 mx-2"></div>
 
+                <!-- ============================================= -->
+                <!-- DATA REVIEWER                               -->
+                <!-- ============================================= -->
                 <!-- Jenis Reviewer -->
                 <a href="{{ route('admin.jenisreviewer.index') }}"
                     class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.jenisreviewer.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
@@ -97,6 +105,26 @@
                     class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.reviewer.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
                     <i class="fas fa-user-check w-4 text-center"></i>
                     <span class="text-sm">Reviewer</span>
+                </a>
+
+                <!-- Divider -->
+                <div class="h-px bg-white/5 my-1 mx-2"></div>
+
+                <!-- ============================================= -->
+                <!-- DATA SKEMA                                  -->
+                <!-- ============================================= -->
+                <!-- Jenis Skema -->
+                <a href="{{ route('admin.jenisskema.index') }}"
+                    class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.jenisskema.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-layer-group w-4 text-center"></i>
+                    <span class="text-sm">Jenis Skema</span>
+                </a>
+
+                <!-- Skema -->
+                <a href="{{ route('admin.skema.index') }}"
+                    class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.skema.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-clipboard-list w-4 text-center"></i>
+                    <span class="text-sm">Skema</span>
                 </a>
             </div>
         </div>
