@@ -2,34 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Skema extends Model
+class Periode extends Model
 {
     use HasFactory;
+    protected $table = 'periode';
 
-    protected $table = 'skema';
     protected $fillable = [
-        'kode_skema',
-        'nama_skema',
-        'deskripsi_skema',
-        'dana_minimalskema',
-        'dana_maksimalskema',
-        'durasi_bulan',
-        'status_skema',
-        'jenisskema_id'
+        'kode_periode',
+        'nama_periode',
+        'tahun_anggaran',
+        'semester',
+        'keterangan_periode',
+        'status_periode'
     ];
 
-    public function jenisskema()
-    {
-        return $this->belongsTo(JenisSkema::class, 'jenisskema_id');
-    }
-
-    public function periode()
+    public function skema()
     {
         return $this->belongsToMany(
-            Periode::class,
+            Skema::class,
             'periode_skema'
         )
             ->using(PeriodeSkema::class)
@@ -50,20 +43,18 @@ class Skema extends Model
             ->withTimestamps();
     }
 
-    /**
-     * Get status label (Aktif/Nonaktif)
-     */
+    protected $casts = [
+        'status_periode' => 'boolean',
+    ];
+
     public function getStatusLabelAttribute()
     {
-        return $this->status_skema ? 'Aktif' : 'Nonaktif';
+        return $this->status_periode ? 'Aktif' : 'Nonaktif';
     }
 
-    /**
-     * Get status badge HTML
-     */
     public function getStatusBadgeAttribute()
     {
-        if ($this->status_skema) {
+        if ($this->status_periode) {
             return '<span class="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-700">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
                         Aktif
@@ -75,19 +66,13 @@ class Skema extends Model
                 </span>';
     }
 
-    /**
-     * Get status color class
-     */
-    public function getStatusColorAttribute()
+    public function getSemesterIconAttribute()
     {
-        return $this->status_skema ? 'text-emerald-600' : 'text-rose-600';
+        return $this->semester == 'Ganjil' ? 'fa-sun' : 'fa-moon';
     }
 
-    /**
-     * Get status dot color
-     */
-    public function getStatusDotAttribute()
+    public function getSemesterColorAttribute()
     {
-        return $this->status_skema ? 'bg-emerald-500' : 'bg-rose-500';
+        return $this->semester == 'Ganjil' ? 'text-amber-500' : 'text-indigo-500';
     }
 }

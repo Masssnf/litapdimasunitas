@@ -5,6 +5,7 @@ use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\JenisReviewerController;
 use App\Http\Controllers\JenisSkemaController;
+use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewerController;
 use App\Http\Controllers\SkemaController;
@@ -37,6 +38,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('reviewer', ReviewerController::class);
     Route::resource('jenisskema', JenisSkemaController::class);
     Route::resource('skema', SkemaController::class);
+    Route::resource('periode', PeriodeController::class);
 });
 
 require __DIR__ . '/auth.php';

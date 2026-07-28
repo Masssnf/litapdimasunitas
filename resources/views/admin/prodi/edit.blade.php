@@ -110,38 +110,9 @@
 
             <!-- BARIS 2: Jenjang & Fakultas -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <!-- Jenjang -->
-                {{-- <div>
-                    <label for="jenjang_prodi" class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Jenjang <span class="text-rose-500">*</span>
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-graduation-cap text-gray-400"></i>
-                        </div>
-                        <select name="jenjang_prodi" 
-                                id="jenjang_prodi"
-                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition @error('jenjang_prodi') border-rose-500 focus:ring-rose-500 @enderror"
-                                required>
-                            <option value="">Pilih Jenjang</option>
-                            <option value="D3" {{ old('jenjang_prodi', $prodi->jenjang_prodi) == 'D3' ? 'selected' : '' }}>D3</option>
-                            <option value="D4" {{ old('jenjang_prodi', $prodi->jenjang_prodi) == 'D4' ? 'selected' : '' }}>D4</option>
-                            <option value="S1" {{ old('jenjang_prodi', $prodi->jenjang_prodi) == 'S1' ? 'selected' : '' }}>S1</option>
-                            <option value="S2" {{ old('jenjang_prodi', $prodi->jenjang_prodi) == 'S2' ? 'selected' : '' }}>S2</option>
-                            <option value="S3" {{ old('jenjang_prodi', $prodi->jenjang_prodi) == 'S3' ? 'selected' : '' }}>S3</option>
-                            <option value="Profesi" {{ old('jenjang_prodi', $prodi->jenjang_prodi) == 'Profesi' ? 'selected' : '' }}>Profesi</option>
-                        </select>
-                    </div>
-                    @error('jenjang_prodi')
-                        <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
-                            <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                        </p>
-                    @enderror
-                </div> --}}
-
                 <div>
                     <label for="jenjang_prodi" class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Status <span class="text-rose-500">*</span>
+                        Jenjang <span class="text-rose-500">*</span>
                     </label>
                     <select name="jenjang_prodi" 
                             id="jenjang_prodi"
