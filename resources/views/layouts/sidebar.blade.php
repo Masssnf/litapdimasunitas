@@ -1,10 +1,12 @@
-<aside class="w-72 bg-gradient-to-b from-slate-900 to-slate-800 text-white min-h-screen flex-shrink-0 shadow-2xl flex flex-col">
+<aside
+    class="w-72 bg-gradient-to-b from-slate-900 to-slate-800 text-white min-h-screen flex-shrink-0 shadow-2xl flex flex-col">
     <!-- ============================================= -->
     <!-- HEADER / LOGO                                -->
     <!-- ============================================= -->
     <div class="p-5 border-b border-white/5 flex-shrink-0">
         <div class="flex items-center space-x-3">
-            <div class="w-11 h-11 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-lg font-bold text-white shadow-lg shadow-indigo-500/25">
+            <div
+                class="w-11 h-11 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-lg font-bold text-white shadow-lg shadow-indigo-500/25">
                 L
             </div>
             <div>
@@ -34,14 +36,16 @@
         <!-- MASTER DATA (DROPDOWN)                       -->
         <!-- ============================================= -->
         @php
-            $isMasterActive = request()->routeIs('admin.fakultas.*') || 
-                              request()->routeIs('admin.prodi.*') || 
-                              request()->routeIs('admin.dosen.*') ||
-                              request()->routeIs('admin.reviewer.*') ||
-                              request()->routeIs('admin.jenisreviewer.*') ||
-                              request()->routeIs('admin.jenisskema.*') ||
-                              request()->routeIs('admin.skema.*') ||
-                              request()->routeIs('admin.periode.*');
+            $isMasterActive =
+                request()->routeIs('admin.fakultas.*') ||
+                request()->routeIs('admin.prodi.*') ||
+                request()->routeIs('admin.dosen.*') ||
+                request()->routeIs('admin.reviewer.*') ||
+                request()->routeIs('admin.jenisreviewer.*') ||
+                request()->routeIs('admin.jenisskema.*') ||
+                request()->routeIs('admin.skema.*') ||
+                request()->routeIs('admin.periode.*') ||
+                request()->routeIs('admin.periodeskema.*');
         @endphp
 
         <div class="mb-2">
@@ -131,6 +135,13 @@
                     <i class="fas fa-calendar-alt w-4 text-center"></i>
                     <span class="text-sm">Periode</span>
                 </a>
+
+                <!-- Periode Skema -->
+                <a href="{{ route('admin.periodeskema.index') }}"
+                    class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.periodeskema.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-calendar-check w-4 text-center"></i>
+                    <span class="text-sm">Periode Skema</span>
+                </a>
             </div>
         </div>
 
@@ -146,7 +157,8 @@
     <!-- ============================================= -->
     <div class="border-t border-white/5 p-4 flex-shrink-0">
         <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-indigo-500/25 flex-shrink-0">
+            <div
+                class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-indigo-500/25 flex-shrink-0">
                 {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
             </div>
             <div class="flex-1 min-w-0">
@@ -166,7 +178,9 @@
             <!-- Logout Button -->
             <form method="POST" action="{{ route('logout') }}" class="inline">
                 @csrf
-                <button type="submit" class="p-2 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200" title="Logout">
+                <button type="submit"
+                    class="p-2 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+                    title="Logout">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </form>

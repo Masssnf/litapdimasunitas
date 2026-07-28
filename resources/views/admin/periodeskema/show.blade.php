@@ -33,11 +33,6 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <a href="{{ route('admin.periodeskema.edit', $periodeSkema->id) }}"
-                        class="group relative px-5 py-2.5 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-white/30 transition-all duration-300 flex items-center text-sm border border-white/20">
-                        <i class="fas fa-edit mr-2"></i>
-                        Edit
-                    </a>
                     <a href="{{ route('admin.periodeskema.index') }}"
                         class="group relative px-5 py-2.5 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-white/30 transition-all duration-300 flex items-center text-sm border border-white/20">
                         <i class="fas fa-arrow-left mr-2"></i>
