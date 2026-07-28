@@ -1,0 +1,296 @@
+@extends('layouts.admin')
+
+@section('header', 'Manajemen Periode Skema')
+
+@section('content')
+    <div class="space-y-5">
+
+        <!-- ============================================= -->
+        <!-- HERO HEADER                                   -->
+        <!-- ============================================= -->
+        <div
+            class="relative overflow-hidden bg-gradient-to-br from-rose-600 via-rose-500 to-pink-600 rounded-2xl shadow-xl shadow-rose-500/20 p-6">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/5 rounded-full blur-2xl"></div>
+            <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-pink-400/10 rounded-full blur-3xl"></div>
+
+            <div class="relative flex flex-wrap justify-between items-center gap-4">
+                <div class="flex items-center space-x-4">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                        <i class="fas fa-calendar-check text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-white tracking-tight">Manajemen Periode Skema</h1>
+                        <div class="flex items-center space-x-3 mt-0.5">
+                            <span class="text-rose-100 text-sm">Kelola semua data periode skema</span>
+                            <span
+                                class="px-2.5 py-0.5 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
+                                {{ $periodeSkema->total() }} Periode Skema
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{{ route('admin.periodeskema.create') }}"
+                    class="group relative px-5 py-2.5 bg-white text-rose-600 font-semibold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center text-sm overflow-hidden">
+                    <span
+                        class="absolute inset-0 bg-gradient-to-r from-rose-50 to-pink-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span class="relative flex items-center">
+                        <i class="fas fa-plus-circle mr-2 group-hover:rotate-90 transition-transform duration-300"></i>
+                        Tambah Periode Skema
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ============================================= -->
+        <!-- STATISTIK CARD                               -->
+        <!-- ============================================= -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div
+                class="bg-white rounded-2xl shadow-sm border border-gray-100/80 p-5 hover:shadow-md transition-all duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Total Periode Skema</p>
+                        <p class="text-2xl font-bold text-gray-800 mt-1">{{ $total }}</p>
+                    </div>
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/25">
+                        <i class="fas fa-calendar-check text-white text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-gray-100">
+                    <span class="text-xs text-gray-400">Total seluruh periode skema</span>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-2xl shadow-sm border border-gray-100/80 p-5 hover:shadow-md transition-all duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Periode Skema Aktif</p>
+                        <p class="text-2xl font-bold text-emerald-600 mt-1">{{ $aktif }}</p>
+                    </div>
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                        <i class="fas fa-check-circle text-white text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-gray-100">
+                    <span class="text-xs text-emerald-500">● Status aktif</span>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-2xl shadow-sm border border-gray-100/80 p-5 hover:shadow-md transition-all duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Periode Skema Nonaktif</p>
+                        <p class="text-2xl font-bold text-rose-600 mt-1">{{ $nonaktif }}</p>
+                    </div>
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/25">
+                        <i class="fas fa-times-circle text-white text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-gray-100">
+                    <span class="text-xs text-rose-500">● Status nonaktif</span>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-2xl shadow-sm border border-gray-100/80 p-5 hover:shadow-md transition-all duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Total Skema</p>
+                        <p class="text-2xl font-bold text-blue-600 mt-1">{{ $totalSkema }}</p>
+                    </div>
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25">
+                        <i class="fas fa-clipboard-list text-white text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-gray-100">
+                    <span class="text-xs text-blue-500">● Total skema aktif</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================= -->
+        <!-- TABLE                                        -->
+        <!-- ============================================= -->
+        <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100/80 overflow-hidden transition-all hover:shadow-md">
+
+            <!-- Toolbar -->
+            <div class="px-5 py-3.5 border-b border-gray-100 flex flex-wrap justify-between items-center gap-3">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-500">Total:</span>
+                        <span class="text-sm font-bold text-gray-800">{{ $periodeSkema->total() }}</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="flex items-center space-x-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span class="text-xs text-gray-400">Aktif: {{ $aktif }}</span>
+                        </span>
+                        <span class="flex items-center space-x-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                            <span class="text-xs text-gray-400">Nonaktif: {{ $nonaktif }}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <form method="GET" action="{{ route('admin.periodeskema.index') }}"
+                        class="flex items-center space-x-2">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Cari periode skema..."
+                                class="pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-400/30 focus:border-rose-300 focus:bg-white transition-all duration-200 w-40 focus:w-52 text-gray-700 placeholder:text-gray-400">
+                        </div>
+                        <button type="submit"
+                            class="w-9 h-9 rounded-xl bg-rose-500 hover:bg-rose-600 text-white transition flex items-center justify-center">
+                            <i class="fas fa-search text-sm"></i>
+                        </button>
+                        @if (request('search'))
+                            <a href="{{ route('admin.periodeskema.index') }}"
+                                class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition flex items-center justify-center">
+                                <i class="fas fa-times text-sm"></i>
+                            </a>
+                        @endif
+                    </form>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50/50 text-gray-500 text-xs font-semibold uppercase tracking-wider">
+                            <th class="py-3.5 px-5 text-center w-12">#</th>
+                            <th class="py-3.5 px-5 text-left">Periode</th>
+                            <th class="py-3.5 px-5 text-left">Skema</th>
+                            <th class="py-3.5 px-5 text-center hidden lg:table-cell">Tanggal Pengajuan</th>
+                            <th class="py-3.5 px-5 text-center hidden xl:table-cell">Kuota</th>
+                            <th class="py-3.5 px-5 text-center hidden xl:table-cell">Dana</th>
+                            <th class="py-3.5 px-5 text-center">Status</th>
+                            <th class="py-3.5 px-5 text-center w-36">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        @forelse($periodeSkema as $index => $item)
+                            <tr class="hover:bg-rose-50/30 transition duration-200 group">
+                                <td class="py-3.5 px-5 text-gray-400 text-sm text-center font-mono">
+                                    {{ $periodeSkema->firstItem() + $index }}</td>
+
+                                <td class="py-3.5 px-5">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-calendar-alt text-rose-400 text-xs"></i>
+                                        <span
+                                            class="text-sm font-medium text-gray-800">{{ $item->periode->nama_periode ?? '-' }}</span>
+                                    </div>
+                                </td>
+
+                                <td class="py-3.5 px-5">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clipboard-list text-rose-400 text-xs"></i>
+                                        <span
+                                            class="text-sm font-medium text-gray-800">{{ $item->skema->nama_skema ?? '-' }}</span>
+                                    </div>
+                                </td>
+
+                                <td class="py-3.5 px-5 text-gray-600 text-sm text-center hidden lg:table-cell">
+                                    <div class="flex flex-col items-center">
+                                        <span class="text-xs">{{ $item->tanggal_mulai_pengajuan_formatted }}</span>
+                                        <span class="text-[10px] text-gray-400">s.d</span>
+                                        <span class="text-xs">{{ $item->tanggal_selesai_pengajuan_formatted }}</span>
+                                    </div>
+                                </td>
+
+                                <td class="py-3.5 px-5 text-gray-600 text-sm text-center hidden xl:table-cell">
+                                    <span class="font-semibold">{{ $item->kuota_proposal }}</span>
+                                </td>
+
+                                <td class="py-3.5 px-5 text-gray-600 text-sm text-center hidden xl:table-cell">
+                                    <span class="text-[10px] font-medium text-emerald-600">
+                                        {{ $item->dana_minimal_formatted }}
+                                    </span>
+                                    <span class="text-[10px] text-gray-400">-</span>
+                                    <span class="text-[10px] font-medium text-rose-600">
+                                        {{ $item->dana_maksimal_formatted }}
+                                    </span>
+                                </td>
+
+                                <td class="py-3.5 px-5 text-center">
+                                    {!! $item->status_badge !!}
+                                </td>
+
+                                <td class="py-3.5 px-5">
+                                    <div class="flex items-center justify-center space-x-1">
+                                        <a href="{{ route('admin.periodeskema.show', $item->id) }}"
+                                            class="w-8 h-8 rounded-xl hover:bg-rose-50 text-gray-400 hover:text-rose-600 transition flex items-center justify-center group"
+                                            title="Detail">
+                                            <i class="fas fa-eye text-sm group-hover:scale-110 transition"></i>
+                                        </a>
+
+                                        <a href="{{ route('admin.periodeskema.edit', $item->id) }}"
+                                            class="w-8 h-8 rounded-xl hover:bg-amber-50 text-gray-400 hover:text-amber-600 transition flex items-center justify-center group"
+                                            title="Edit">
+                                            <i class="fas fa-edit text-sm group-hover:scale-110 transition"></i>
+                                        </a>
+
+                                        <form action="{{ route('admin.periodeskema.destroy', $item->id) }}"
+                                            method="POST" class="inline"
+                                            onsubmit="return confirmDelete(this, '{{ $item->periode->nama_periode ?? '' }} - {{ $item->skema->nama_skema ?? '' }}')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="w-8 h-8 rounded-xl hover:bg-rose-50 text-gray-400 hover:text-rose-600 transition flex items-center justify-center group"
+                                                title="Hapus">
+                                                <i class="fas fa-trash text-sm group-hover:scale-110 transition"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8" class="py-16 text-center">
+                                    <div class="flex flex-col items-center">
+                                        <div
+                                            class="w-20 h-20 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
+                                            <i class="fas fa-calendar-check text-3xl text-gray-300"></i>
+                                        </div>
+                                        <p class="text-gray-600 font-semibold text-lg">Belum ada data periode skema</p>
+                                        <p class="text-sm text-gray-400 mt-1">Klik tombol "Tambah Periode Skema" untuk
+                                            memulai</p>
+                                        <a href="{{ route('admin.periodeskema.create') }}"
+                                            class="mt-4 inline-flex items-center px-4 py-2 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-100 transition text-sm font-medium">
+                                            <i class="fas fa-plus-circle mr-2"></i>
+                                            Tambah Periode Skema Sekarang
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div
+                class="px-5 py-3.5 border-t border-gray-100 bg-gray-50/30 flex flex-wrap justify-between items-center gap-3">
+                <div class="text-xs text-gray-500">
+                    Menampilkan <span class="font-semibold text-gray-700">{{ $periodeSkema->firstItem() ?? 0 }}</span>
+                    - <span class="font-semibold text-gray-700">{{ $periodeSkema->lastItem() ?? 0 }}</span>
+                    dari <span class="font-semibold text-gray-700">{{ $periodeSkema->total() }}</span>
+                </div>
+                <div>
+                    {{ $periodeSkema->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
