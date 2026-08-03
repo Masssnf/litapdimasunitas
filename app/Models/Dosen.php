@@ -38,6 +38,16 @@ class Dosen extends Model
         return $this->hasOne(Reviewer::class);
     }
 
+    public function proposal()
+    {
+        return $this->hasMany(Proposal::class, 'ketua_dosen_id');
+    }
+
+    public function proposalAnggota()
+    {
+        
+    }
+
     /**
      * Get status label (Aktif/Nonaktif)
      */

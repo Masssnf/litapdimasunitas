@@ -54,6 +54,11 @@ class PeriodeSkema extends Pivot
         return $this->belongsTo(Skema::class);
     }
 
+    public function proposal()
+    {
+        return $this->hasMany(Proposal::class, 'periode_skema_id');
+    }
+
     // =============================================
     // ACCESSOR STATUS
     // =============================================

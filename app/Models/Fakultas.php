@@ -30,6 +30,11 @@ class Fakultas extends Model
         return $this->hasMany(Dosen::class);
     }
 
+    public function proposal()
+    {
+        return $this->hasMany(Proposal::class);
+    }
+
      // =============================================
     // 1 & 0 (Aktif/Nonaktif)
     // =============================================

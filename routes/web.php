@@ -10,6 +10,7 @@ use App\Http\Controllers\PeriodeSkemaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewerController;
 use App\Http\Controllers\SkemaController;
+use App\Http\Controllers\BidangPenelitianController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -41,6 +42,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('skema', SkemaController::class);
     Route::resource('periode', PeriodeController::class);
     Route::resource('periodeskema', PeriodeSkemaController::class);
+    Route::resource('bidangpenelitian', BidangPenelitianController::class);
 });
 
 require __DIR__ . '/auth.php';

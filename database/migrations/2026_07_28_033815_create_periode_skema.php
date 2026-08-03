@@ -6,93 +6,73 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('periode_skema', function (Blueprint $table) {
+        /**
+         * Run the migrations.
+         */
+        public function up(): void
+        {
+                Schema::create('periode_skema', function (Blueprint $table) {
 
-            $table->id();
+                        $table->id();
 
-            /*Relasi*/
+                        /*Relasi*/
 
-            $table->foreignId('periode_id')
-                ->constrained('periode')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                        $table->foreignId('periode_id')
+                                ->constrained('periode')
+                                ->cascadeOnUpdate()
+                                ->cascadeOnDelete();
+                        $table->foreignId('skema_id')
+                                ->constrained('skema')
+                                ->cascadeOnUpdate()
+                                ->cascadeOnDelete();
 
-            $table->foreignId('skema_id')
-                ->constrained('skema')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                        /*Pengajuan*/
 
-            /*Pengajuan*/
-            $table->date('tanggal_mulai_pengajuan');
+                        $table->date('tanggal_mulai_pengajuan');
+                        $table->date('tanggal_selesai_pengajuan');
 
-            $table->date('tanggal_selesai_pengajuan');
+                        /*Review*/
 
-            /*
-    Review
-    */
+                        $table->date('tanggal_mulai_review')->nullable();
+                        $table->date('tanggal_selesai_review')->nullable();
 
-            $table->date('tanggal_mulai_review')->nullable();
+                        /*Pengumuman*/
 
-            $table->date('tanggal_selesai_review')->nullable();
+                        $table->date('tanggal_pengumuman')->nullable();
 
-            /*
-    Pengumuman
-    */
+                        /*Kuota*/
 
-            $table->date('tanggal_pengumuman')->nullable();
+                        $table->integer('kuota_proposal')->default(0);
 
-            /*
-    Kuota
-    */
+                        /*Dana*/
 
-            $table->integer('kuota_proposal')->default(0);
+                        $table->decimal('dana_minimal', 15, 2)->default(0);
+                        $table->decimal('dana_maksimal', 15, 2)->default(0);
 
-            /*
-    Dana
-    */
+                        /*Maksimal anggota tim*/
 
-            $table->decimal('dana_minimal', 15, 2)->default(0);
+                        $table->integer('maksimal_anggota')->default(1);
 
-            $table->decimal('dana_maksimal', 15, 2)->default(0);
+                        /*Luaran wajib*/
 
-            /*
-    Maksimal anggota tim
-    */
+                        $table->string('luaran_wajib')->nullable();
 
-            $table->integer('maksimal_anggota')->default(1);
+                        /*Status*/
 
-            /*
-    Luaran wajib
-    */
+                        $table->boolean('status')->default(true);
 
-            $table->string('luaran_wajib')->nullable();
+                        /*Catatan*/
 
-            /*
-    Status
-    */
+                        $table->text('keterangan')->nullable();
+                        $table->timestamps();
+                });
+        }
 
-            $table->boolean('status')->default(true);
-
-            /*
-    Catatan
-    */
-
-            $table->text('keterangan')->nullable();
-
-            $table->timestamps();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('periode_skema');
-    }
+        /**
+         * Reverse the migrations.
+         */
+        public function down(): void
+        {
+                Schema::dropIfExists('periode_skema');
+        }
 };

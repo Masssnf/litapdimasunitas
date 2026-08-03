@@ -33,6 +33,11 @@ class Reviewer extends Model
         return $this->belongsTo(Dosen::class);
     }
 
+    public function proposal()
+    {
+        return $this->hasMany(ProposalReviewer::class);
+    }
+
     /**
      * Get status label (Aktif/Nonaktif)
      */

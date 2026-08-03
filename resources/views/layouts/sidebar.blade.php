@@ -45,7 +45,8 @@
                 request()->routeIs('admin.jenisskema.*') ||
                 request()->routeIs('admin.skema.*') ||
                 request()->routeIs('admin.periode.*') ||
-                request()->routeIs('admin.periodeskema.*');
+                request()->routeIs('admin.periodeskema.*') ||
+                request()->routeIs('admin.bidangpenelitian.*');
         @endphp
 
         <div class="mb-2">
@@ -141,6 +142,13 @@
                     class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.periodeskema.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
                     <i class="fas fa-calendar-check w-4 text-center"></i>
                     <span class="text-sm">Periode Skema</span>
+                </a>
+
+                <!-- Bidang Penelitian -->
+                <a href="{{ route('admin.bidangpenelitian.index') }}"
+                    class="flex items-center space-x-3 py-2 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.bidangpenelitian.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <i class="fas fa-flask w-4 text-center"></i>
+                    <span class="text-sm">Bidang Penelitian</span>
                 </a>
             </div>
         </div>
