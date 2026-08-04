@@ -18,6 +18,11 @@ class BidangPenelitian extends Model
         'status_bidang'
     ];
 
+    public function proposal()
+    {
+        return $this->hasMany(Proposal::class, 'bidangpenelitian_id');
+    }
+
 
     /**
      * Get status label (Aktif/Nonaktif)

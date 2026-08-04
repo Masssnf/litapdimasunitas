@@ -34,4 +34,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProposalStatus::class, 'updated_by');
     }
+
+    public function proposalDokumen()
+    {
+        return $this->hasMany(ProposalDokumen::class, 'uploaded_by');
+    }
 }

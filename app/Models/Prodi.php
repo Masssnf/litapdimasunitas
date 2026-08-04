@@ -37,6 +37,11 @@ class Prodi extends Model
         return $this->hasMany(ProposalMahasiswa::class, 'prodi_id');
     }
 
+    public function proposal()
+    {
+        return $this->hasMany(Proposal::class, 'prodi_id');
+    }
+
     /**
      * Get status label (Aktif/Nonaktif)
      */

@@ -38,14 +38,14 @@ class Dosen extends Model
         return $this->hasOne(Reviewer::class);
     }
 
-    public function proposal()
+    public function proposalKetua()
     {
         return $this->hasMany(Proposal::class, 'ketua_dosen_id');
     }
 
     public function proposalAnggota()
     {
-        
+        return $this->hasMany(ProposalAnggota::class, 'dosen_id');
     }
 
     /**
