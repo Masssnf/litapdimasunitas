@@ -8,10 +8,15 @@ use App\Http\Controllers\JenisSkemaController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PeriodeSkemaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProposalAnggotaController;
 use App\Http\Controllers\ReviewerController;
 use App\Http\Controllers\SkemaController;
 use App\Http\Controllers\BidangPenelitianController;
 use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\ProposalDokumenController;
+use App\Http\Controllers\ProposalMahasiswaController;
+use App\Http\Controllers\ProposalReviewController;
+use App\Http\Controllers\ProposalReviewerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -45,64 +50,54 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('bidangpenelitian', BidangPenelitianController::class);
 
     // =============================================
-    // PROPOSAL (Resource + Custom Routes)
+    // PROPOSAL (MASTER)
     // =============================================
-    
-    // ---------- PROPOSAL RESOURCE ----------
-    // GET|HEAD    /admin/proposal                 → index
-    // GET|HEAD    /admin/proposal/create          → create
-    // POST        /admin/proposal                 → store
-    // GET|HEAD    /admin/proposal/{id}            → show
-    // GET|HEAD    /admin/proposal/{id}/edit       → edit
-    // PUT|PATCH   /admin/proposal/{id}            → update
-    // DELETE      /admin/proposal/{id}            → destroy
     Route::resource('proposal', ProposalController::class);
-
-    // ---------- UPDATE STATUS (Workflow) ----------
     Route::patch('proposal/{id}/status', [ProposalController::class, 'updateStatus'])
         ->name('proposal.update-status');
 
     // =============================================
-    // ROUTE UNTUK RELASI PROPOSAL (via AJAX)
+    // PROPOSAL CHILD (NESTED RESOURCES)
     // =============================================
+    Route::prefix('proposal/{proposal_id}')->name('proposal.')->group(function () {
 
-    // ---------- ANGGOTA ----------
-    // POST   /admin/proposal/anggota              → addAnggota
-    // DELETE /admin/proposal/anggota/{id}         → removeAnggota
-    Route::post('proposal/anggota', [ProposalController::class, 'addAnggota'])
-        ->name('proposal.add-anggota');
-    Route::delete('proposal/anggota/{id}', [ProposalController::class, 'removeAnggota'])
-        ->name('proposal.remove-anggota');
+        // ---------- ANGGOTA ----------
+        Route::resource('anggota', ProposalAnggotaController::class)
+            ->except(['show'])
+            ->parameters(['anggota' => 'id']);
 
-    // ---------- MAHASISWA ----------
-    // POST   /admin/proposal/mahasiswa            → addMahasiswa
-    // DELETE /admin/proposal/mahasiswa/{id}       → removeMahasiswa
-    Route::post('proposal/mahasiswa', [ProposalController::class, 'addMahasiswa'])
-        ->name('proposal.add-mahasiswa');
-    Route::delete('proposal/mahasiswa/{id}', [ProposalController::class, 'removeMahasiswa'])
-        ->name('proposal.remove-mahasiswa');
+        // ---------- MAHASISWA ----------
+        Route::resource('mahasiswa', ProposalMahasiswaController::class)
+            ->except(['show'])
+            ->parameters(['mahasiswa' => 'id']);
 
-    // ---------- DOKUMEN ----------
-    // POST   /admin/proposal/dokumen              → addDokumen
-    // DELETE /admin/proposal/dokumen/{id}         → removeDokumen
-    // GET    /admin/proposal/dokumen/{id}/download → downloadDokumen
-    Route::post('proposal/dokumen', [ProposalController::class, 'addDokumen'])
-        ->name('proposal.add-dokumen');
-    Route::delete('proposal/dokumen/{id}', [ProposalController::class, 'removeDokumen'])
-        ->name('proposal.remove-dokumen');
-    Route::get('proposal/dokumen/{id}/download', [ProposalController::class, 'downloadDokumen'])
-        ->name('proposal.download-dokumen');
+        // ---------- DOKUMEN ----------
+        Route::resource('dokumen', ProposalDokumenController::class)
+            ->except(['show', 'edit', 'update'])
+            ->parameters(['dokumen' => 'id']);
+        Route::get('dokumen/{id}/download', [ProposalDokumenController::class, 'download'])
+            ->name('dokumen.download');
 
-    // ---------- REVIEWER ----------
-    // POST   /admin/proposal/reviewer             → addReviewer
-    // DELETE /admin/proposal/reviewer/{id}        → removeReviewer
-    // PATCH  /admin/proposal/reviewer/{id}/status → updateReviewerStatus
-    Route::post('proposal/reviewer', [ProposalController::class, 'addReviewer'])
-        ->name('proposal.add-reviewer');
-    Route::delete('proposal/reviewer/{id}', [ProposalController::class, 'removeReviewer'])
-        ->name('proposal.remove-reviewer');
-    Route::patch('proposal/reviewer/{id}/status', [ProposalController::class, 'updateReviewerStatus'])
-        ->name('proposal.update-reviewer-status');
+        // ---------- REVIEWER (PENUGASAN) ----------
+        Route::resource('reviewer', ProposalReviewerController::class)
+            ->except(['show'])
+            ->parameters(['reviewer' => 'id']);
+        Route::patch('reviewer/{id}/status', [ProposalReviewerController::class, 'updateStatus'])
+            ->name('reviewer.update-status');
+
+        // ---------- REVIEW (HASIL REVIEW) ----------
+        // ✅ Tambahkan route lengkap untuk Review
+        Route::get('review', [ProposalReviewController::class, 'index'])
+            ->name('review.index');
+        Route::get('review/create', [ProposalReviewController::class, 'create'])
+            ->name('review.create');
+        Route::post('review', [ProposalReviewController::class, 'store'])
+            ->name('review.store');
+        Route::get('review/{id}', [ProposalReviewController::class, 'show'])
+            ->name('review.show');
+        Route::delete('review/{id}', [ProposalReviewController::class, 'destroy'])
+            ->name('review.destroy');
+    });
 });
 
 require __DIR__ . '/auth.php';

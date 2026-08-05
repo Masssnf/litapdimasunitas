@@ -46,7 +46,8 @@
                 request()->routeIs('admin.skema.*') ||
                 request()->routeIs('admin.periode.*') ||
                 request()->routeIs('admin.periodeskema.*') ||
-                request()->routeIs('admin.bidangpenelitian.*');
+                request()->routeIs('admin.bidangpenelitian.*') ||
+                request()->routeIs('admin.proposal.*');
         @endphp
 
         <div class="mb-2">
@@ -151,6 +152,14 @@
                     <span class="text-sm">Bidang Penelitian</span>
                 </a>
             </div>
+        </div>
+
+        <div class="mb-3">
+            <a href="{{ route('admin.proposal.index') }}"
+                class="flex items-center space-x-3 py-2.5 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.proposal.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
+                <i class="fas fa-file-alt w-5 text-center"></i>
+                <span class="text-sm font-medium">Proposal</span>
+            </a>
         </div>
 
         <!-- ============================================= -->

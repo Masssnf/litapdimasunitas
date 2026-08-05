@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class ProposalReview extends Model
 {
     use HasFactory;
 
-    protected $table = 'review';
+    protected $table = 'proposal_review';
 
     protected $fillable = [
         'proposal_reviewer_id',
@@ -58,15 +58,15 @@ class Review extends Model
     }
 
     // =============================================
-    // ACCESSOR
+    // ACCESSOR (Rekomendasi: diterima, ditolak, revisi)
     // =============================================
 
     public function getRekomendasiBadgeAttribute()
     {
         $colors = [
-            'Lolos' => 'bg-emerald-100 text-emerald-700',
-            'Revisi' => 'bg-orange-100 text-orange-700',
-            'Ditolak' => 'bg-rose-100 text-rose-700',
+            'diterima' => 'bg-emerald-100 text-emerald-700',
+            'ditolak' => 'bg-rose-100 text-rose-700',
+            'revisi' => 'bg-orange-100 text-orange-700',
         ];
 
         $color = $colors[$this->rekomendasi] ?? 'bg-gray-100 text-gray-700';

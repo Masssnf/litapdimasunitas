@@ -10,6 +10,7 @@ class Reviewer extends Model
     use HasFactory;
 
     protected $table = 'reviewer';
+
     protected $fillable = [
         'kode_reviewer',
         'nama_reviewer',
@@ -23,6 +24,10 @@ class Reviewer extends Model
         'dosen_id',
     ];
 
+    // =============================================
+    // RELASI
+    // =============================================
+
     public function jenisreviewer()
     {
         return $this->belongsTo(JenisReviewer::class, 'jenisreviewer_id');
@@ -30,25 +35,23 @@ class Reviewer extends Model
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class);
+        return $this->belongsTo(Dosen::class, 'dosen_id'); // ✅ Ditambahkan foreign key
     }
 
     public function proposal()
     {
-        return $this->hasMany(ProposalReviewer::class);
+        return $this->hasMany(ProposalReviewer::class, 'reviewer_id'); // ✅ Ditambahkan foreign key
     }
 
-    /**
-     * Get status label (Aktif/Nonaktif)
-     */
+    // =============================================
+    // ACCESSOR (Sudah Benar)
+    // =============================================
+
     public function getStatusLabelAttribute()
     {
         return $this->status_reviewer ? 'Aktif' : 'Nonaktif';
     }
 
-    /**
-     * Get status badge HTML
-     */
     public function getStatusBadgeAttribute()
     {
         if ($this->status_reviewer) {
@@ -63,17 +66,11 @@ class Reviewer extends Model
                 </span>';
     }
 
-    /**
-     * Get status color class
-     */
     public function getStatusColorAttribute()
     {
         return $this->status_reviewer ? 'text-emerald-600' : 'text-rose-600';
     }
 
-    /**
-     * Get status dot color
-     */
     public function getStatusDotAttribute()
     {
         return $this->status_reviewer ? 'bg-emerald-500' : 'bg-rose-500';

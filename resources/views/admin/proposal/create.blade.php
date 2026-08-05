@@ -46,24 +46,13 @@
                     <i class="fas fa-file-alt text-indigo-600"></i>
                 </div>
                 <div>
-                    <h3 class="text-sm font-semibold text-gray-700">Form Proposal</h3>
+                    <h3 class="text-sm font-semibold text-gray-700">Form Data Proposal</h3>
                     <p class="text-xs text-gray-400">Lengkapi data proposal di bawah ini</p>
                 </div>
             </div>
 
-            <form action="{{ route('admin.proposal.store') }}" method="POST" enctype="multipart/form-data" class="p-6">
+            <form action="{{ route('admin.proposal.store') }}" method="POST" class="p-6">
                 @csrf
-
-                <!-- ============================================= -->
-                <!-- 1. DATA PROPOSAL                            -->
-                <!-- ============================================= -->
-                <div class="border-b border-gray-200 pb-4 mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-file-alt text-indigo-500"></i>
-                        Data Proposal
-                    </h3>
-                    <p class="text-sm text-gray-500">Lengkapi data proposal di bawah ini</p>
-                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -113,12 +102,14 @@
                         </label>
                         <select name="status"
                             class="w-full rounded-xl border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                            <option value="diajukan" {{ old('status') == 'diajukan' ? 'selected' : '' }}>Diajukan</option>
-                            <option value="direview" {{ old('status') == 'direview' ? 'selected' : '' }}>Di Review</option>
-                            <option value="diterima" {{ old('status') == 'diterima' ? 'selected' : '' }}>Diterima</option>
-                            <option value="ditolak" {{ old('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                            <option value="revisi" {{ old('status') == 'revisi' ? 'selected' : '' }}>Revisi</option>
+                            <option value="Draft" {{ old('status') == 'Draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="Diajukan" {{ old('status') == 'Diajukan' ? 'selected' : '' }}>Diajukan</option>
+                            <option value="Diverifikasi" {{ old('status') == 'Diverifikasi' ? 'selected' : '' }}>
+                                Diverifikasi</option>
+                            <option value="Direview" {{ old('status') == 'Direview' ? 'selected' : '' }}>Direview</option>
+                            <option value="Revisi" {{ old('status') == 'Revisi' ? 'selected' : '' }}>Revisi</option>
+                            <option value="Lolos" {{ old('status') == 'Lolos' ? 'selected' : '' }}>Lolos</option>
+                            <option value="Ditolak" {{ old('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
                         </select>
                         @error('status')
                             <p class="text-rose-500 text-sm">{{ $message }}</p>
@@ -236,120 +227,6 @@
                     </div>
                 </div>
 
-                <!-- ============================================= -->
-                <!-- 2. ANGGOTA TIM                              -->
-                <!-- ============================================= -->
-                <div class="border-t border-gray-200 pt-4 mt-4">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                            <i class="fas fa-users text-indigo-500"></i>
-                            Anggota Tim
-                        </h4>
-                        <button type="button" id="addAnggota"
-                            class="px-3 py-1.5 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 text-sm">
-                            <i class="fas fa-plus mr-1"></i>Tambah Anggota
-                        </button>
-                    </div>
-
-                    <div id="anggotaContainer">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 anggota-row mb-3">
-                            <div>
-                                <select name="anggota[0][dosen_id]" class="select2 w-full rounded-xl border-gray-300">
-                                    <option value="">Pilih Dosen</option>
-                                    @foreach ($dosen as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nidn }} -
-                                            {{ $item->nama_dosen }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <select name="anggota[0][peran]" class="w-full rounded-xl border-gray-300">
-                                    <option value="anggota">Anggota</option>
-                                    <option value="ketua">Ketua</option>
-                                </select>
-                            </div>
-                            <div class="flex items-center">
-                                <button type="button" class="remove-anggota text-rose-500 hover:text-rose-700">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ============================================= -->
-                <!-- 3. MAHASISWA                                 -->
-                <!-- ============================================= -->
-                <div class="border-t border-gray-200 pt-4 mt-4">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                            <i class="fas fa-user-graduate text-indigo-500"></i>
-                            Mahasiswa
-                        </h4>
-                        <button type="button" id="addMahasiswa"
-                            class="px-3 py-1.5 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 text-sm">
-                            <i class="fas fa-plus mr-1"></i>Tambah Mahasiswa
-                        </button>
-                    </div>
-
-                    <div id="mahasiswaContainer">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mahasiswa-row mb-3">
-                            <div>
-                                <input type="text" name="mahasiswa[0][nim]" placeholder="NIM"
-                                    class="w-full rounded-xl border-gray-300">
-                            </div>
-                            <div>
-                                <input type="text" name="mahasiswa[0][nama_mahasiswa]" placeholder="Nama Mahasiswa"
-                                    class="w-full rounded-xl border-gray-300">
-                            </div>
-                            <div>
-                                <input type="text" name="mahasiswa[0][prodi_mahasiswa]" placeholder="Program Studi"
-                                    class="w-full rounded-xl border-gray-300">
-                            </div>
-                            <div class="flex items-center">
-                                <button type="button" class="remove-mahasiswa text-rose-500 hover:text-rose-700">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ============================================= -->
-                <!-- 4. DOKUMEN                                  -->
-                <!-- ============================================= -->
-                <div class="border-t border-gray-200 pt-4 mt-4">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                            <i class="fas fa-file-pdf text-indigo-500"></i>
-                            Dokumen
-                        </h4>
-                        <button type="button" id="addDokumen"
-                            class="px-3 py-1.5 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 text-sm">
-                            <i class="fas fa-plus mr-1"></i>Tambah Dokumen
-                        </button>
-                    </div>
-
-                    <div id="dokumenContainer">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 dokumen-row mb-3">
-                            <div>
-                                <select name="dokumen[0][jenis_dokumen]" class="w-full rounded-xl border-gray-300">
-                                    <option value="">Pilih Jenis</option>
-                                    <option value="proposal">Proposal</option>
-                                    <option value="surat_pengantar">Surat Pengantar</option>
-                                    <option value="cv_ketua">CV Ketua</option>
-                                    <option value="cv_anggota">CV Anggota</option>
-                                    <option value="lainnya">Lainnya</option>
-                                </select>
-                            </div>
-                            <div>
-                                <input type="file" name="dokumen[0][file]"
-                                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Tombol Aksi -->
                 <div class="mt-6 pt-4 border-t border-gray-100 flex justify-end gap-3">
                     <a href="{{ route('admin.proposal.index') }}" class="px-6 py-2.5 border rounded-xl">Batal</a>
@@ -361,123 +238,4 @@
             </form>
         </div>
     </div>
-
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            let anggotaIndex = 1;
-            let mahasiswaIndex = 1;
-            let dokumenIndex = 1;
-
-            // =============================================
-            // TAMBAH ANGGOTA
-            // =============================================
-            $('#addAnggota').on('click', function() {
-                const html = `
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 anggota-row mb-3">
-                    <div>
-                        <select name="anggota[${anggotaIndex}][dosen_id]" class="select2 w-full rounded-xl border-gray-300">
-                            <option value="">Pilih Dosen</option>
-                            @foreach ($dosen as $item)
-                                <option value="{{ $item->id }}">{{ $item->nidn }} - {{ $item->nama_dosen }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <select name="anggota[${anggotaIndex}][peran]" class="w-full rounded-xl border-gray-300">
-                            <option value="anggota">Anggota</option>
-                            <option value="ketua">Ketua</option>
-                        </select>
-                    </div>
-                    <div class="flex items-center">
-                        <button type="button" class="remove-anggota text-rose-500 hover:text-rose-700">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-                $('#anggotaContainer').append(html);
-                $('.select2').select2({
-                    width: '100%'
-                });
-                anggotaIndex++;
-            });
-
-            $(document).on('click', '.remove-anggota', function() {
-                if ($('.anggota-row').length > 1) {
-                    $(this).closest('.anggota-row').remove();
-                } else {
-                    Swal.fire('Info', 'Minimal harus ada 1 anggota', 'info');
-                }
-            });
-
-            // =============================================
-            // TAMBAH MAHASISWA
-            // =============================================
-            $('#addMahasiswa').on('click', function() {
-                const html = `
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mahasiswa-row mb-3">
-                    <div>
-                        <input type="text" name="mahasiswa[${mahasiswaIndex}][nim]" placeholder="NIM" class="w-full rounded-xl border-gray-300">
-                    </div>
-                    <div>
-                        <input type="text" name="mahasiswa[${mahasiswaIndex}][nama_mahasiswa]" placeholder="Nama Mahasiswa" class="w-full rounded-xl border-gray-300">
-                    </div>
-                    <div>
-                        <input type="text" name="mahasiswa[${mahasiswaIndex}][prodi_mahasiswa]" placeholder="Program Studi" class="w-full rounded-xl border-gray-300">
-                    </div>
-                    <div class="flex items-center">
-                        <button type="button" class="remove-mahasiswa text-rose-500 hover:text-rose-700">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-                $('#mahasiswaContainer').append(html);
-                mahasiswaIndex++;
-            });
-
-            $(document).on('click', '.remove-mahasiswa', function() {
-                if ($('.mahasiswa-row').length > 1) {
-                    $(this).closest('.mahasiswa-row').remove();
-                } else {
-                    Swal.fire('Info', 'Minimal harus ada 1 mahasiswa', 'info');
-                }
-            });
-
-            // =============================================
-            // TAMBAH DOKUMEN
-            // =============================================
-            $('#addDokumen').on('click', function() {
-                const html = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 dokumen-row mb-3">
-                    <div>
-                        <select name="dokumen[${dokumenIndex}][jenis_dokumen]" class="w-full rounded-xl border-gray-300">
-                            <option value="">Pilih Jenis</option>
-                            <option value="proposal">Proposal</option>
-                            <option value="surat_pengantar">Surat Pengantar</option>
-                            <option value="cv_ketua">CV Ketua</option>
-                            <option value="cv_anggota">CV Anggota</option>
-                            <option value="lainnya">Lainnya</option>
-                        </select>
-                    </div>
-                    <div>
-                        <input type="file" name="dokumen[${dokumenIndex}][file]" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                    </div>
-                </div>
-            `;
-                $('#dokumenContainer').append(html);
-                dokumenIndex++;
-            });
-
-            $(document).on('click', '.remove-dokumen', function() {
-                if ($('.dokumen-row').length > 1) {
-                    $(this).closest('.dokumen-row').remove();
-                } else {
-                    Swal.fire('Info', 'Minimal harus ada 1 dokumen', 'info');
-                }
-            });
-        });
-    </script>
-@endsection
 @endsection

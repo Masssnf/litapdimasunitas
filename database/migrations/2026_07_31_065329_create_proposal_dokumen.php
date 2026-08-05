@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('proposal_dokumen', function (Blueprint $table) {
@@ -34,7 +31,7 @@ return new class extends Migration
             ]);
 
             // Versi Dokumen
-            $table->unsignedInteger('versi')->default(1);
+            $table->integer('versi')->default(1); // ✅ Diubah dari unsignedInteger ke integer
 
             // Menandai dokumen terbaru
             $table->boolean('is_latest')->default(true);
@@ -70,9 +67,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('proposal_dokumen');
