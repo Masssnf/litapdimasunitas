@@ -37,6 +37,11 @@ class Dosen extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function reviewer()
+    {
+        return $this->hasOne(Reviewer::class);
+    }
+
     public function fakultas()
     {
         return $this->belongsTo(Fakultas::class);

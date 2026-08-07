@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('alamat_reviewer')->nullable();
             $table->boolean('status_reviewer')->default(true);
             $table->foreignId('jenisreviewer_id')->constrained('jenisreviewer')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('dosen_id')->nullable()->constrained('dosen')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('dosen_id')->nullable()->constrained('dosen')->cascadeOnUpdate()->OnDelete('cascade');
             $table->timestamps();
         });
     }
