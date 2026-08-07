@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dosen extends Model
 {
-
     use HasFactory;
+
     protected $table = 'dosen';
 
     protected $fillable = [
+        'user_id',
         'nidn',
         'nama_dosen',
         'jenis_kelamin',
@@ -20,8 +21,21 @@ class Dosen extends Model
         'alamat_dosen',
         'status_dosen',
         'fakultas_id',
-        'prodi_id'
+        'prodi_id',
     ];
+
+    protected $casts = [
+        'status_dosen' => 'boolean',
+    ];
+
+    // =============================================
+    // RELASI
+    // =============================================
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function fakultas()
     {
@@ -33,59 +47,38 @@ class Dosen extends Model
         return $this->belongsTo(Prodi::class);
     }
 
-    public function reviewer()
-    {
-        return $this->hasOne(Reviewer::class);
-    }
+    // =============================================
+    // ACCESSOR
+    // =============================================
 
-    public function proposalKetua()
-    {
-        return $this->hasMany(Proposal::class, 'ketua_dosen_id');
-    }
-
-    public function proposalAnggota()
-    {
-        return $this->hasMany(ProposalAnggota::class, 'dosen_id');
-    }
-
-    /**
-     * Get status label (Aktif/Nonaktif)
-     */
-    public function getStatusLabelAttribute()
-    {
-        return $this->status_dosen ? 'Aktif' : 'Nonaktif';
-    }
-
-    /**
-     * Get status badge HTML
-     */
-    public function getStatusBadgeAttribute()
+    public function getStatusBadgeAttribute(): string
     {
         if ($this->status_dosen) {
-            return '<span class="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-700">
+            return '<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
                         Aktif
                     </span>';
         }
-        return '<span class="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-semibold bg-rose-100 text-rose-700">
+        return '<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-700">
                     <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5"></span>
                     Nonaktif
                 </span>';
     }
 
-    /**
-     * Get status color class
-     */
-    public function getStatusColorAttribute()
+    public function getJenisKelaminLabelAttribute(): string
     {
-        return $this->status_dosen ? 'text-emerald-600' : 'text-rose-600';
+        return $this->jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan';
     }
 
-    /**
-     * Get status dot color
-     */
-    public function getStatusDotAttribute()
+    public function getInitialAttribute(): string
     {
-        return $this->status_dosen ? 'bg-emerald-500' : 'bg-rose-500';
+        $words = explode(' ', $this->nama_dosen);
+        $initial = '';
+        foreach ($words as $word) {
+            if (!empty($word)) {
+                $initial .= strtoupper($word[0]);
+            }
+        }
+        return substr($initial, 0, 2);
     }
 }

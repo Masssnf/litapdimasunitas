@@ -32,6 +32,14 @@
             </a>
         </div>
 
+        <div class="mb-3">
+            <a href="{{ route('admin.users.index') }}"
+                class="flex items-center space-x-3 py-2.5 px-4 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.users.*') ? 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
+                <i class="fas fa-users-cog w-5 text-center"></i>
+                <span class="text-sm font-medium">Manajemen User</span>
+            </a>
+        </div>
+
         <!-- ============================================= -->
         <!-- MASTER DATA (DROPDOWN)                       -->
         <!-- ============================================= -->
@@ -46,8 +54,7 @@
                 request()->routeIs('admin.skema.*') ||
                 request()->routeIs('admin.periode.*') ||
                 request()->routeIs('admin.periodeskema.*') ||
-                request()->routeIs('admin.bidangpenelitian.*') ||
-                request()->routeIs('admin.proposal.*');
+                request()->routeIs('admin.bidangpenelitian.*');
         @endphp
 
         <div class="mb-2">
@@ -172,6 +179,9 @@
     <!-- ============================================= -->
     <!-- FOOTER - USER PROFILE & LOGOUT               -->
     <!-- ============================================= -->
+    <!-- ============================================= -->
+    <!-- FOOTER - USER PROFILE & LOGOUT               -->
+    <!-- ============================================= -->
     <div class="border-t border-white/5 p-4 flex-shrink-0">
         <div class="flex items-center space-x-3">
             <div
@@ -180,17 +190,40 @@
             </div>
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-white truncate">{{ Auth::user()->name ?? 'User' }}</p>
-                <p class="text-[10px] text-gray-400 truncate">
+                <div class="mt-0.5">
                     @php
-                        $roleLabels = [
-                            'superadmin' => 'Super Admin',
-                            'admin' => 'Admin',
-                            'reviewer' => 'Reviewer',
-                            'dosen' => 'Dosen',
+                        $user = Auth::user();
+                        $roleName = $user->getRoleNames()->first() ?? '';
+
+                        $roleConfig = [
+                            'super_admin' => [
+                                'label' => 'Super Admin',
+                                'color' => 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+                            ],
+                            'admin_lppm' => [
+                                'label' => 'Admin LPPM',
+                                'color' => 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+                            ],
+                            'reviewer' => [
+                                'label' => 'Reviewer',
+                                'color' => 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+                            ],
+                            'dosen' => [
+                                'label' => 'Dosen',
+                                'color' => 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+                            ],
+                        ];
+
+                        $config = $roleConfig[$roleName] ?? [
+                            'label' => 'User',
+                            'color' => 'bg-gray-500/20 text-gray-300 border-gray-500/30',
                         ];
                     @endphp
-                    {{ $roleLabels[Auth::user()->role ?? ''] ?? 'User' }}
-                </p>
+                    <span
+                        class="inline-block px-2 py-0.5 rounded-full text-[9px] font-semibold border {{ $config['color'] }}">
+                        {{ $config['label'] }}
+                    </span>
+                </div>
             </div>
             <!-- Logout Button -->
             <form method="POST" action="{{ route('logout') }}" class="inline">

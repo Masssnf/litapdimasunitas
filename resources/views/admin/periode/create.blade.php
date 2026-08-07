@@ -165,8 +165,8 @@
                         </label>
                         <select name="status_periode" id="status_periode" class="select2 w-full"
                             data-placeholder="Pilih Status" data-allow-clear="false" data-search="-1" required>
-                            <option value="1" {{ old('status_periode') == '1' ? 'selected' : '' }}>✅ Aktif</option>
-                            <option value="0" {{ old('status_periode') == '0' ? 'selected' : '' }}>❌ Nonaktif</option>
+                            <option value="1" {{ old('status_periode') == '1' ? 'selected' : '' }}>Aktif</option>
+                            <option value="0" {{ old('status_periode') == '0' ? 'selected' : '' }}>Nonaktif</option>
                         </select>
                         @error('status_periode')
                             <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">

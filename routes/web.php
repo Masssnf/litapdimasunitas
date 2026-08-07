@@ -17,23 +17,44 @@ use App\Http\Controllers\ProposalDokumenController;
 use App\Http\Controllers\ProposalMahasiswaController;
 use App\Http\Controllers\ProposalReviewController;
 use App\Http\Controllers\ProposalReviewerController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// =============================================
+// DASHBOARD
+// =============================================
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
+// =============================================
+// PROFILE
+// =============================================
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
+// =============================================
+// ADMIN ROUTES
+// =============================================
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+
+    // =============================================
+    // USER MANAGEMENT (Super Admin & Admin)
+    // =============================================
+    Route::resource('users', UserController::class)
+        ->middleware('permission:view_users');
+        
+    Route::patch('users/{id}/toggle-status', [UserController::class, 'toggleStatus'])
+        ->name('users.toggle-status')
+        ->middleware('permission:edit_users');
 
     // =============================================
     // MASTER DATA
@@ -78,15 +99,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('dokumen/{id}/download', [ProposalDokumenController::class, 'download'])
             ->name('dokumen.download');
 
-        // ---------- REVIEWER (PENUGASAN) ----------
+        // ---------- REVIEWER (Penugasan) ----------
         Route::resource('reviewer', ProposalReviewerController::class)
             ->except(['show'])
             ->parameters(['reviewer' => 'id']);
-        Route::patch('reviewer/{id}/status', [ProposalReviewerController::class, 'updateStatus'])
-            ->name('reviewer.update-status');
 
-        // ---------- REVIEW (HASIL REVIEW) ----------
-        // ✅ Tambahkan route lengkap untuk Review
+        // ---------- REVIEW (Hasil Review) ----------
         Route::get('review', [ProposalReviewController::class, 'index'])
             ->name('review.index');
         Route::get('review/create', [ProposalReviewController::class, 'create'])

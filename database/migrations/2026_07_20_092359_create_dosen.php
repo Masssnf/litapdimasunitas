@@ -6,33 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('dosen', function (Blueprint $table) {
             $table->id();
-            $table->string('nidn')->unique();
-            $table->string('nama_dosen');
-            $table->string('jenis_kelamin');
-            $table->string('email_dosen')->unique();
-            $table->string('notelp_dosen')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->string('nidn', 20)->unique();
+            $table->string('nama_dosen', 255);
+            $table->enum('jenis_kelamin', ['L', 'P']);
+            $table->string('email_dosen', 255)->nullable();
+            $table->string('notelp_dosen', 20)->nullable();
             $table->text('alamat_dosen')->nullable();
-            $table->string('status_dosen');
-            $table->foreignId('fakultas_id')->constrained('fakultas')
-                ->cascadeOnUpdate()
-                ->restrictOnDelete();
-            $table->foreignId('prodi_id')->constrained('prodi')
-                ->cascadeOnUpdate()
-                ->restrictOnDelete();
+            $table->boolean('status_dosen')->default(true);
+            $table->foreignId('fakultas_id')->constrained('fakultas')->onDelete('cascade');
+            $table->foreignId('prodi_id')->constrained('prodi')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('dosen');

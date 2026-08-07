@@ -96,7 +96,8 @@
                             <p class="text-rose-500 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div>
+
+                    {{-- <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">
                             Status <span class="text-rose-500">*</span>
                         </label>
@@ -114,8 +115,32 @@
                         @error('status')
                             <p class="text-rose-500 text-sm">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
+
                     <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Status <span class="text-rose-500">*</span>
+                        </label>
+                        <select name="status" id="status" class="select2 w-full" data-placeholder="Pilih Status"
+                            data-allow-clear="false" data-search="-1" required>
+                            <option value="">Pilih Status</option>
+                            <option value="Draft" {{ old('status') == 'Draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="Diajukan" {{ old('status') == 'Diajukan' ? 'selected' : '' }}>Diajukan</option>
+                            <option value="Diverifikasi" {{ old('status') == 'Diverifikasi' ? 'selected' : '' }}>
+                                Diverifikasi</option>
+                            <option value="Direview" {{ old('status') == 'Direview' ? 'selected' : '' }}>Direview</option>
+                            <option value="Revisi" {{ old('status') == 'Revisi' ? 'selected' : '' }}>Revisi</option>
+                            <option value="Lolos" {{ old('status') == 'Lolos' ? 'selected' : '' }}>Lolos</option>
+                            <option value="Ditolak" {{ old('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+                        </select>
+                        @error('status')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    {{-- <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">
                             Periode Skema <span class="text-rose-500">*</span>
                         </label>
@@ -132,8 +157,36 @@
                         @error('periode_skema_id')
                             <p class="text-rose-500 text-sm">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
+
                     <div>
+                        <label for="periode_skema_id" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Periode Skema <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-tags text-gray-400"></i>
+                            </div>
+                            <select name="periode_skema_id" id="periode_skema_id"
+                                class="select2 w-full @error('periode_skema_id') border-rose-500 focus:ring-rose-500 @enderror"
+                                data-placeholder="Pilih Periode Skema" required>
+                                <option value="">Pilih Periode Skema</option>
+                                @foreach ($periodeSkema as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('periode_skema_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->periode->kode_periode }} - {{ $item->skema->nama_skema ?? '' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('periode_skema_id')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    {{-- <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">
                             Ketua Dosen <span class="text-rose-500">*</span>
                         </label>
@@ -150,8 +203,36 @@
                         @error('ketua_dosen_id')
                             <p class="text-rose-500 text-sm">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
+
                     <div>
+                        <label for="ketua_dosen_id" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Ketua Dosen <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-tags text-gray-400"></i>
+                            </div>
+                            <select name="ketua_dosen_id" id="ketua_dosen_id"
+                                class="select2 w-full @error('ketua_dosen_id') border-rose-500 focus:ring-rose-500 @enderror"
+                                data-placeholder="Pilih Ketua Dosen" required>
+                                <option value="">Pilih Ketua Dosen</option>
+                                @foreach ($dosen as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('ketua_dosen_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nidn }} - {{ $item->nama_dosen }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('ketua_dosen_id')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    {{-- <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">
                             Bidang Penelitian <span class="text-rose-500">*</span>
                         </label>
@@ -168,8 +249,36 @@
                         @error('bidangpenelitian_id')
                             <p class="text-rose-500 text-sm">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
+
                     <div>
+                        <label for="bidangpenelitian_id" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Bidang Penelitian <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-tags text-gray-400"></i>
+                            </div>
+                            <select name="bidangpenelitian_id" id="bidangpenelitian_id"
+                                class="select2 w-full @error('bidangpenelitian_id') border-rose-500 focus:ring-rose-500 @enderror"
+                                data-placeholder="Pilih Bidang Penelitian" required>
+                                <option value="">Pilih Bidang Penelitian</option>
+                                @foreach ($bidangPenelitian as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('bidangpenelitian_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->kode_bidang }} - {{ $item->nama_bidang }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('bidangpenelitian_id')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    {{-- <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">
                             Fakultas <span class="text-rose-500">*</span>
                         </label>
@@ -186,8 +295,36 @@
                         @error('fakultas_id')
                             <p class="text-rose-500 text-sm">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
+
                     <div>
+                        <label for="fakultas_id" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Fakultas <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-tags text-gray-400"></i>
+                            </div>
+                            <select name="fakultas_id" id="fakultas_id"
+                                class="select2 w-full @error('fakultas_id') border-rose-500 focus:ring-rose-500 @enderror"
+                                data-placeholder="Pilih Fakultas" required>
+                                <option value="">Pilih Fakultas</option>
+                                @foreach ($fakultas as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('fakultas_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->kode_fakultas }} - {{ $item->nama_fakultas }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('fakultas_id')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    {{-- <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">
                             Program Studi <span class="text-rose-500">*</span>
                         </label>
@@ -203,7 +340,35 @@
                         @error('prodi_id')
                             <p class="text-rose-500 text-sm">{{ $message }}</p>
                         @enderror
+                    </div> --}}
+
+                    <div>
+                        <label for="prodi_id" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Prodi <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-tags text-gray-400"></i>
+                            </div>
+                            <select name="prodi_id" id="prodi_id"
+                                class="select2 w-full @error('prodi_id') border-rose-500 focus:ring-rose-500 @enderror"
+                                data-placeholder="Pilih Prodi" required>
+                                <option value="">Pilih Prodi</option>
+                                @foreach ($prodi as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('prodi_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->kode_prodi }} - {{ $item->nama_prodi }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('prodi_id')
+                            <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                            </p>
+                        @enderror
                     </div>
+
                 </div>
 
                 <!-- Ringkasan & Kata Kunci -->
