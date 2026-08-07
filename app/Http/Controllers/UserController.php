@@ -137,13 +137,23 @@ class UserController extends Controller
     /**
      * Toggle user status (active/inactive)
      */
-    public function toggleStatus(User $user)
+    public function toggleStatus($id)
     {
-        $user->update([
-            'status' => $user->status === 'active' ? 'inactive' : 'active'
-        ]);
+        $user = User::findOrFail($id);
+
+        // Cegah menonaktifkan diri sendiri
+        if ($user->id === auth()->id()) {
+            return redirect()->back()
+                ->with('error', 'Anda tidak dapat mengubah status akun sendiri!');
+        }
+
+        // Toggle status
+        $newStatus = $user->status === 'active' ? 'inactive' : 'active';
+        $user->update(['status' => $newStatus]);
+
+        $statusLabel = $newStatus === 'active' ? 'diaktifkan' : 'dinonaktifkan';
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'Status user berhasil diubah!');
+            ->with('success', "User {$user->name} berhasil {$statusLabel}!");
     }
 }

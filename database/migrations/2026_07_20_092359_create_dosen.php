@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('dosen', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('nidn', 20)->unique();
             $table->string('nama_dosen', 255);
             $table->enum('jenis_kelamin', ['L', 'P']);
