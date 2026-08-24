@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('reviewer', function (Blueprint $table) {
             $table->id();
+
+            // =============================================
+            // DATA REVIEWER
+            // =============================================
             $table->string('kode_reviewer')->unique();
             $table->string('nama_reviewer')->nullable();
             $table->string('nidn_reviewer')->nullable();
@@ -21,8 +25,32 @@ return new class extends Migration
             $table->string('notelp_reviewer')->nullable();
             $table->text('alamat_reviewer')->nullable();
             $table->boolean('status_reviewer')->default(true);
-            $table->foreignId('jenisreviewer_id')->constrained('jenisreviewer')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('dosen_id')->nullable()->constrained('dosen')->cascadeOnUpdate()->OnDelete('cascade');
+
+            // =============================================
+            // RELASI
+            // =============================================
+
+            // ✅ Relasi ke Jenis Reviewer (Wajib)
+            $table->foreignId('jenisreviewer_id')
+                ->nullable()
+                ->constrained('jenisreviewer')
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+
+            // ✅ Relasi ke Dosen (Opsional)
+            $table->foreignId('dosen_id')
+                ->nullable()
+                ->constrained('dosen')
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+
+            // ✅ Relasi ke User (Opsional)
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
+
             $table->timestamps();
         });
     }

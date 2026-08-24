@@ -9,6 +9,7 @@ use App\Models\Prodi;
 use App\Models\Reviewer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -54,68 +55,84 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
-            'role' => 'required|exists:roles,name',
-            'status' => 'required|in:active,inactive',
-            // Validasi dosen
-            'nidn' => 'required_if:role,dosen|required_if:role,reviewer|nullable|string|max:20|unique:dosen,nidn',
-            'jenis_kelamin' => 'required_if:role,dosen|required_if:role,reviewer|nullable|in:L,P',
-            'fakultas_id' => 'required_if:role,dosen|required_if:role,reviewer|nullable|exists:fakultas,id',
-            'prodi_id' => 'required_if:role,dosen|required_if:role,reviewer|nullable|exists:prodi,id',
-            // Validasi reviewer (jika role reviewer)
-            'kode_reviewer' => 'required_if:role,reviewer|nullable|string|max:20|unique:reviewer,kode_reviewer',
-            'instansi_reviewer' => 'nullable|string|max:255',
-            'jenisreviewer_id' => 'nullable|exists:jenisreviewer,id',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|min:8|confirmed',
+                'role' => 'required|exists:roles,name',
+                'status' => 'required|in:active,inactive',
 
-        // 1. Buat User
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'status' => $request->status,
-        ]);
+                'nidn' => 'required_if:role,dosen|required_if:is_dosen,1|nullable|string|max:20|unique:dosen,nidn',
+                'jenis_kelamin' => 'required_if:role,dosen|required_if:is_dosen,1|nullable|in:L,P',
+                'fakultas_id' => 'required_if:role,dosen|required_if:is_dosen,1|nullable|exists:fakultas,id',
+                'prodi_id' => 'required_if:role,dosen|required_if:is_dosen,1|nullable|exists:prodi,id',
 
-        // 2. Assign Role
-        $user->assignRole($request->role);
 
-        // 3. Jika role = dosen atau reviewer, buat dosen
-        if (in_array($request->role, ['dosen', 'reviewer'])) {
-            $dosen = Dosen::create([
-                'user_id' => $user->id,
-                'nidn' => $request->nidn,
-                'nama_dosen' => $request->name,
-                'jenis_kelamin' => $request->jenis_kelamin,
-                'email_dosen' => $request->email,
-                'notelp_dosen' => $request->notelp_dosen ?? null,
-                'alamat_dosen' => $request->alamat_dosen ?? null,
-                'status_dosen' => $request->status === 'active' ? true : false,
-                'fakultas_id' => $request->fakultas_id,
-                'prodi_id' => $request->prodi_id,
+                'nidn_reviewer' => 'required_if:role,reviewer|nullable|string|max:20',
+                'kode_reviewer' => 'required_if:role,reviewer|nullable|string|max:20|unique:reviewer,kode_reviewer',
+                'instansi_reviewer' => 'nullable|string|max:255',
+                'jenisreviewer_id' => 'nullable|exists:jenisreviewer,id',
             ]);
 
-            // 4. Jika role = reviewer, buat reviewer
-            if ($request->role === 'reviewer') {
-                Reviewer::create([
-                    'dosen_id' => $dosen->id,
-                    'kode_reviewer' => $request->kode_reviewer,
-                    'nama_reviewer' => $request->name,
-                    'nidn_reviewer' => $request->nidn,
-                    'instansi_reviewer' => $request->instansi_reviewer,
-                    'email_reviewer' => $request->email,
-                    'notelp_reviewer' => $request->notelp_dosen,
-                    'alamat_reviewer' => $request->alamat_dosen,
-                    'status_reviewer' => $request->status === 'active' ? true : false,
-                    'jenisreviewer_id' => $request->jenisreviewer_id,
+            // 1. Buat User
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'status' => $request->status,
+            ]);
+
+            // 2. Assign Role
+            $user->assignRole($request->role);
+
+            // 3. Buat Dosen
+            $isDosenRequired = ($request->role === 'dosen') || ($request->role === 'reviewer' && $request->is_dosen == 1);
+
+            if ($isDosenRequired) {
+                $dosen = Dosen::create([
+                    'user_id' => $user->id,
+                    'nidn' => $request->nidn,
+                    'nama_dosen' => $request->name,
+                    'jenis_kelamin' => $request->jenis_kelamin,
+                    'email_dosen' => $request->email,
+                    'notelp_dosen' => $request->notelp_dosen ?? null,
+                    'alamat_dosen' => $request->alamat_dosen ?? null,
+                    'status_dosen' => $request->status === 'active' ? true : false,
+                    'fakultas_id' => $request->fakultas_id,
+                    'prodi_id' => $request->prodi_id,
                 ]);
             }
-        }
 
-        return redirect()->route('admin.users.index')
-            ->with('success', 'User berhasil ditambahkan!');
+            // 4. Buat Reviewer jika role = reviewer
+            if ($request->role === 'reviewer') {
+                $reviewerData = [
+                    'user_id' => $user->id, // ✅ Ada user_id
+                    'kode_reviewer' => $request->kode_reviewer,
+                    'nama_reviewer' => $request->name,
+                    'nidn_reviewer' => $request->nidn_reviewer ?? null,
+                    'instansi_reviewer' => $request->instansi_reviewer ?? null,
+                    'email_reviewer' => $request->email,
+                    'notelp_reviewer' => $request->notelp_dosen ?? null,
+                    'alamat_reviewer' => $request->alamat_dosen ?? null,
+                    'status_reviewer' => $request->status === 'active' ? true : false,
+                    'jenisreviewer_id' => $request->jenisreviewer_id ?? null,
+                ];
+
+                if (isset($dosen)) {
+                    $reviewerData['dosen_id'] = $dosen->id;
+                }
+
+                Reviewer::create($reviewerData);
+            }
+            return redirect()->route('admin.users.index')
+                ->with('success', 'User berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            // ✅ Tangkap error dan tampilkan
+            return back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -241,21 +258,59 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    // public function destroy(User $user)
+    // {
+    //     if ($user->id === auth()->id()) {
+    //         return back()->with('error', 'Anda tidak dapat menghapus akun sendiri!');
+    //     }
+
+    //     // Hapus dosen terkait jika ada
+    //     if ($user->dosen) {
+    //         $user->dosen->delete();
+    //     }
+
+    //     $user->delete();
+
+    //     return redirect()->route('admin.users.index')
+    //         ->with('success', 'User berhasil dihapus!');
+    // }
+    public function destroy($id)
     {
+        $user = User::findOrFail($id);
+
         if ($user->id === auth()->id()) {
             return back()->with('error', 'Anda tidak dapat menghapus akun sendiri!');
         }
 
-        // Hapus dosen terkait jika ada
-        if ($user->dosen) {
-            $user->dosen->delete();
+        DB::beginTransaction();
+
+        try {
+            // ✅ Hapus dosen terkait jika ada
+            if ($user->dosen) {
+                // Hapus reviewer terkait jika ada
+                if ($user->dosen->reviewer) {
+                    $user->dosen->reviewer->delete();
+                }
+                $user->dosen->delete();
+            }
+
+            // ✅ Hapus reviewer langsung jika ada (tanpa dosen)
+            $reviewer = Reviewer::where('user_id', $user->id)->first();
+            if ($reviewer) {
+                $reviewer->delete();
+            }
+
+            // ✅ Hapus user
+            $user->delete();
+
+            DB::commit();
+
+            return redirect()->route('admin.users.index')
+                ->with('success', 'User berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal menghapus user: ' . $e->getMessage());
         }
-
-        $user->delete();
-
-        return redirect()->route('admin.users.index')
-            ->with('success', 'User berhasil dihapus!');
     }
     /**
      * Toggle user status (active/inactive)

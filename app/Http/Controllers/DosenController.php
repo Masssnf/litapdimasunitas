@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\Fakultas;
 use App\Models\Prodi;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DosenController extends Controller
 {
@@ -127,11 +129,46 @@ class DosenController extends Controller
      */
     public function destroy(string $id)
     {
-        $dosen = Dosen::findOrFail($id);
-        $dosen->delete();
+        DB::beginTransaction();
 
-        return redirect()
-            ->route('admin.dosen.index')
-            ->with('success', 'Data Dosen berhasil dihapus.');
+        try {
+            $dosen = Dosen::findOrFail($id);
+
+            // ✅ Simpan user_id sebelum dihapus
+            $userId = $dosen->user_id;
+
+            // ✅ Jika dosen memiliki reviewer, hapus reviewer terlebih dahulu
+            if ($dosen->reviewer) {
+                $reviewerUserId = $dosen->reviewer->user_id;
+                $dosen->reviewer->delete();
+
+                // Hapus user reviewer jika berbeda dengan user dosen
+                if ($reviewerUserId && $reviewerUserId != $userId) {
+                    $reviewerUser = User::find($reviewerUserId);
+                    if ($reviewerUser && $reviewerUser->hasRole('reviewer')) {
+                        $reviewerUser->delete();
+                    }
+                }
+            }
+
+            // ✅ Hapus dosen
+            $dosen->delete();
+
+            // ✅ Hapus user terkait
+            if ($userId) {
+                $user = User::find($userId);
+                if ($user && ($user->hasRole('dosen') || $user->hasRole('reviewer'))) {
+                    $user->delete();
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('admin.dosen.index')
+                ->with('success', 'Dosen dan user terkait berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal menghapus dosen: ' . $e->getMessage());
+        }
     }
 }

@@ -28,6 +28,24 @@ class Dosen extends Model
         'status_dosen' => 'boolean',
     ];
 
+    protected static function booted()
+    {
+        static::deleting(function ($dosen) {
+            // Hapus reviewer terkait jika ada
+            if ($dosen->reviewer) {
+                $dosen->reviewer->delete();
+            }
+
+            // Hapus user terkait jika ada
+            if ($dosen->user_id) {
+                $user = User::find($dosen->user_id);
+                if ($user && ($user->hasRole('dosen') || $user->hasRole('reviewer'))) {
+                    $user->delete();
+                }
+            }
+        });
+    }
+
     // =============================================
     // RELASI
     // =============================================

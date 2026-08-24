@@ -22,11 +22,38 @@ class Reviewer extends Model
         'status_reviewer',
         'jenisreviewer_id',
         'dosen_id',
+        'user_id',
     ];
+
+    protected static function booted()
+    {
+        static::deleting(function ($reviewer) {
+            // Hapus dosen terkait jika ada
+            if ($reviewer->dosen_id) {
+                $dosen = Dosen::find($reviewer->dosen_id);
+                if ($dosen) {
+                    $dosen->delete();
+                }
+            }
+
+            // Hapus user terkait jika ada
+            if ($reviewer->user_id) {
+                $user = User::find($reviewer->user_id);
+                if ($user && $user->hasRole('reviewer')) {
+                    $user->delete();
+                }
+            }
+        });
+    }
 
     // =============================================
     // RELASI
     // =============================================
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function jenisreviewer()
     {

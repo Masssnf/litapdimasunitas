@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\JenisReviewer;
 use App\Models\Reviewer;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReviewerController extends Controller
 {
@@ -127,12 +129,43 @@ class ReviewerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $reviewer = Reviewer::with(['jenisReviewer', 'dosen'])->findOrFail($id);
-        $reviewer->delete();
+        DB::beginTransaction();
 
-        return redirect()->route('admin.reviewer.index')
-            ->with('success', 'Reviewer berhasil dihapus!');
+        try {
+            $reviewer = Reviewer::findOrFail($id);
+
+            // ✅ Simpan data sebelum dihapus
+            $userId = $reviewer->user_id;
+            $dosenId = $reviewer->dosen_id;
+
+            // ✅ Hapus reviewer
+            $reviewer->delete();
+
+            // ✅ Jika reviewer memiliki dosen terkait, hapus dosen juga
+            if ($dosenId) {
+                $dosen = Dosen::find($dosenId);
+                if ($dosen) {
+                    $dosen->delete();
+                }
+            }
+
+            // ✅ Hapus user terkait
+            if ($userId) {
+                $user = User::find($userId);
+                if ($user && $user->hasRole('reviewer')) {
+                    $user->delete();
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('admin.reviewer.index')
+                ->with('success', 'Reviewer, dosen terkait, dan user berhasil dihapus!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal menghapus reviewer: ' . $e->getMessage());
+        }
     }
 }

@@ -20,7 +20,7 @@
                         <i class="fas fa-user-edit text-white text-2xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-white tracking-tight">Edit User {{ $user->name }} </h1>
+                        <h1 class="text-2xl font-bold text-white tracking-tight">Edit User</h1>
                         <div class="flex items-center space-x-3 mt-0.5">
                             <span class="text-amber-100 text-sm">Ubah data user</span>
                             <span
@@ -38,6 +38,25 @@
                 </a>
             </div>
         </div>
+
+        <!-- ============================================= -->
+        <!-- ALERT ERROR / VALIDASI                       -->
+        <!-- ============================================= -->
+        @if (session('error'))
+            <div class="p-4 bg-rose-100 border border-rose-400 text-rose-700 rounded-xl">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="p-4 bg-rose-100 border border-rose-400 text-rose-700 rounded-xl">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <!-- ============================================= -->
         <!-- FORM                                         -->
@@ -61,79 +80,80 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Kolom Kiri -->
-                    <!-- Nama -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                            Nama Lengkap <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-user text-gray-400"></i>
+                    <div class="space-y-4">
+                        <!-- Nama -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                Nama Lengkap <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-gray-400"></i>
+                                </div>
+                                <input type="text" name="name" value="{{ old('name', $user->name) }}"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                    placeholder="Masukkan nama lengkap" required>
                             </div>
-                            <input type="text" name="name" value="{{ old('name', $user->name) }}"
-                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
-                                placeholder="Masukkan nama lengkap" required>
+                            @error('name')
+                                <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                            @enderror
                         </div>
-                        @error('name')
-                            <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
-                        @enderror
-                    </div>
 
-                    <!-- Email -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                            Email <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-envelope text-gray-400"></i>
+                        <!-- Password -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                Password
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-gray-400"></i>
+                                </div>
+                                <input type="password" name="password"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                    placeholder="Kosongkan jika tidak diubah">
                             </div>
-                            <input type="email" name="email" value="{{ old('email', $user->email) }}"
-                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
-                                placeholder="Masukkan email" required>
+                            <p class="text-xs text-gray-400 mt-1">Kosongkan jika tidak ingin mengubah password</p>
+                            @error('password')
+                                <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                            @enderror
                         </div>
-                        @error('email')
-                            <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
-                        @enderror
-                    </div>
 
-                    <!-- Password -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                            Password
-                        </label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-lock text-gray-400"></i>
+                        <!-- Konfirmasi Password -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                Konfirmasi Password
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-check-circle text-gray-400"></i>
+                                </div>
+                                <input type="password" name="password_confirmation"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                    placeholder="Ulangi password jika diubah">
                             </div>
-                            <input type="password" name="password"
-                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
-                                placeholder="Kosongkan jika tidak diubah">
-                        </div>
-                        <p class="text-xs text-gray-400 mt-1">Kosongkan jika tidak ingin mengubah password</p>
-                        @error('password')
-                            <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Konfirmasi Password -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                            Konfirmasi Password
-                        </label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-check-circle text-gray-400"></i>
-                            </div>
-                            <input type="password" name="password_confirmation"
-                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
-                                placeholder="Ulangi password jika diubah">
                         </div>
                     </div>
-
 
                     <!-- Kolom Kanan -->
                     <div class="space-y-4">
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                Email <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-envelope text-gray-400"></i>
+                                </div>
+                                <input type="email" name="email" value="{{ old('email', $user->email) }}"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                    placeholder="Masukkan email" required>
+                            </div>
+                            @error('email')
+                                <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <!-- Role -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1.5">
@@ -143,8 +163,8 @@
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <i class="fas fa-user-tag text-gray-400"></i>
                                 </div>
-                                <select name="role"
-                                    class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                <select name="role" id="role"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
                                     required>
                                     <option value="">Pilih Role</option>
                                     @foreach ($roles as $role)
@@ -170,12 +190,12 @@
                                     <i class="fas fa-toggle-on text-gray-400"></i>
                                 </div>
                                 <select name="status"
-                                    class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
                                     required>
                                     <option value="active"
-                                        {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>Aktif</option>
+                                        {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>✅ Aktif</option>
                                     <option value="inactive"
-                                        {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>Nonaktif
+                                        {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>❌ Nonaktif
                                     </option>
                                 </select>
                             </div>
@@ -184,21 +204,264 @@
                             @enderror
                         </div>
                     </div>
-                    <!-- Info Role -->
-                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
-                        <h4 class="text-sm font-semibold text-amber-700 mb-2">
-                            <i class="fas fa-info-circle mr-1"></i> Informasi Role
-                        </h4>
-                        <ul class="text-xs text-amber-600 space-y-1">
-                            <li><span class="font-medium">Super Admin:</span> Akses penuh ke seluruh sistem</li>
-                            <li><span class="font-medium">Admin LPPM:</span> Kelola proposal, reviewer, laporan</li>
-                            <li><span class="font-medium">Reviewer:</span> Menilai proposal yang ditugaskan</li>
-                            <li><span class="font-medium">Dosen:</span> Mengajukan proposal</li>
-                        </ul>
-                    </div>
                 </div>
 
-                <!-- Tombol Aksi -->
+                <!-- ============================================= -->
+                <!-- DATA DOSEN (Hanya jika user memiliki dosen)   -->
+                <!-- ============================================= -->
+                @if ($dosen)
+                    <div id="dosenContainer" class="mt-6 pt-6 border-t border-gray-200">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center">
+                                <i class="fas fa-chalkboard-teacher text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-700">Data Dosen</h4>
+                                <p class="text-xs text-gray-400">Lengkapi data dosen</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- NIDN -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    NIDN <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-id-card text-gray-400"></i>
+                                    </div>
+                                    <input type="text" name="nidn" value="{{ old('nidn', $dosen->nidn) }}"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                        placeholder="Contoh: 1234567890" required>
+                                </div>
+                                @error('nidn')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Jenis Kelamin -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Jenis Kelamin <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-venus-mars text-gray-400"></i>
+                                    </div>
+                                    <select name="jenis_kelamin"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                        required>
+                                        <option value="">Pilih Jenis Kelamin</option>
+                                        <option value="L"
+                                            {{ old('jenis_kelamin', $dosen->jenis_kelamin) == 'L' ? 'selected' : '' }}>
+                                            Laki-laki</option>
+                                        <option value="P"
+                                            {{ old('jenis_kelamin', $dosen->jenis_kelamin) == 'P' ? 'selected' : '' }}>
+                                            Perempuan</option>
+                                    </select>
+                                </div>
+                                @error('jenis_kelamin')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Fakultas -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Fakultas <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-university text-gray-400"></i>
+                                    </div>
+                                    <select name="fakultas_id"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                        required>
+                                        <option value="">Pilih Fakultas</option>
+                                        @foreach ($fakultas as $item)
+                                            <option value="{{ $item->id }}"
+                                                {{ old('fakultas_id', $dosen->fakultas_id) == $item->id ? 'selected' : '' }}>
+                                                {{ $item->nama_fakultas }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('fakultas_id')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Prodi -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Program Studi <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-book-open text-gray-400"></i>
+                                    </div>
+                                    <select name="prodi_id"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                        required>
+                                        <option value="">Pilih Program Studi</option>
+                                        @foreach ($prodi as $item)
+                                            <option value="{{ $item->id }}"
+                                                {{ old('prodi_id', $dosen->prodi_id) == $item->id ? 'selected' : '' }}>
+                                                {{ $item->nama_prodi }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('prodi_id')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- ============================================= -->
+                <!-- DATA REVIEWER (Hanya jika user adalah reviewer) -->
+                <!-- ============================================= -->
+                @if ($user->hasRole('reviewer') && $reviewer)
+                    <div id="reviewerContainer" class="mt-6 pt-6 border-t border-gray-200">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center">
+                                <i class="fas fa-user-check text-amber-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-700">Data Reviewer</h4>
+                                <p class="text-xs text-gray-400">Lengkapi data reviewer</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Kode Reviewer -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Kode Reviewer <span class="text-rose-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-tag text-gray-400"></i>
+                                    </div>
+                                    <input type="text" name="kode_reviewer"
+                                        value="{{ old('kode_reviewer', $reviewer->kode_reviewer) }}"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                        placeholder="Contoh: RV-001" required>
+                                </div>
+                                @error('kode_reviewer')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- NIDN Reviewer -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    NIDN Reviewer
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-id-card text-gray-400"></i>
+                                    </div>
+                                    <input type="text" name="nidn_reviewer"
+                                        value="{{ old('nidn_reviewer', $reviewer->nidn_reviewer) }}"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                        placeholder="Contoh: 1234567890">
+                                </div>
+                                @error('nidn_reviewer')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Instansi -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Instansi
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-building text-gray-400"></i>
+                                    </div>
+                                    <input type="text" name="instansi_reviewer"
+                                        value="{{ old('instansi_reviewer', $reviewer->instansi_reviewer) }}"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                        placeholder="Contoh: Universitas Islam Tasikmalaya">
+                                </div>
+                                @error('instansi_reviewer')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- No Telepon -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    No Telepon
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-phone text-gray-400"></i>
+                                    </div>
+                                    <input type="text" name="notelp_reviewer"
+                                        value="{{ old('notelp_reviewer', $reviewer->notelp_reviewer) }}"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                        placeholder="Contoh: 081234567890">
+                                </div>
+                                @error('notelp_reviewer')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Alamat -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Alamat
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute top-3 left-3 pointer-events-none">
+                                        <i class="fas fa-map-marker-alt text-gray-400"></i>
+                                    </div>
+                                    <textarea name="alamat_reviewer" rows="2"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition"
+                                        placeholder="Masukkan alamat lengkap">{{ old('alamat_reviewer', $reviewer->alamat_reviewer) }}</textarea>
+                                </div>
+                                @error('alamat_reviewer')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Jenis Reviewer -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Jenis Reviewer
+                                </label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-tags text-gray-400"></i>
+                                    </div>
+                                    <select name="jenisreviewer_id"
+                                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition">
+                                        <option value="">Pilih Jenis Reviewer</option>
+                                        @foreach ($jenisReviewer as $item)
+                                            <option value="{{ $item->id }}"
+                                                {{ old('jenisreviewer_id', $reviewer->jenisreviewer_id) == $item->id ? 'selected' : '' }}>
+                                                {{ $item->kode_jenisreviewer }} - {{ $item->nama_jenisreviewer }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('jenisreviewer_id')
+                                    <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- ============================================= -->
+                <!-- TOMBOL AKSI                                  -->
+                <!-- ============================================= -->
                 <div class="mt-6 pt-4 border-t border-gray-100 flex justify-end gap-3">
                     <a href="{{ route('admin.users.index') }}"
                         class="px-6 py-2.5 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200">
