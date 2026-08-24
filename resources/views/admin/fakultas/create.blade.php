@@ -6,6 +6,32 @@
     <div class="space-y-5">
 
         <!-- ============================================= -->
+        <!-- BREADCRUMB                                   -->
+        <!-- ============================================= -->
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-indigo-600 text-sm transition-colors">
+                        <i class="fas fa-home mr-1"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                        <a href="{{ route('admin.fakultas.index') }}"
+                            class="ml-1 text-gray-500 hover:text-indigo-600 text-sm transition-colors">Fakultas</a>
+                    </div>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                        <span class="ml-1 text-sm font-medium text-gray-700">Tambah Fakultas</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- ============================================= -->
         <!-- HERO HEADER                                   -->
         <!-- ============================================= -->
         <div

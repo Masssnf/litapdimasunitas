@@ -6,6 +6,30 @@
     <div class="space-y-5">
 
         <!-- ============================================= -->
+        <!-- BREADCRUMB - Style 5 (Minimalis)            -->
+        <!-- ============================================= -->
+        <div class="border-b border-gray-100 pb-3 mb-5">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center flex-wrap gap-1.5">
+                    <li>
+                        <a href="{{ route('dashboard') }}"
+                            class="text-sm text-gray-400 hover:text-indigo-500 transition-colors">
+                            <i class="fas fa-home mr-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <span class="text-gray-300 text-sm">/</span>
+                        <a href="{{ route('admin.prodi.index') }}"
+                            class="text-sm text-gray-400 hover:text-indigo-500 transition-colors ml-1">
+                            Program Studi
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- ============================================= -->
         <!-- HERO HEADER                                   -->
         <!-- ============================================= -->
         <div
@@ -154,7 +178,8 @@
                                     {{ $prodi->firstItem() + $index }}</td>
 
                                 <td class="py-3.5 px-5">
-                                    <span class="font-mono text-sm font-medium text-gray-700">{{ $item->kode_prodi }}</span>
+                                    <span
+                                        class="font-mono text-sm font-medium text-gray-700">{{ $item->kode_prodi }}</span>
                                 </td>
 
                                 <td class="py-3.5 px-5">

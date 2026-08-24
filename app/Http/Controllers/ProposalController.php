@@ -79,12 +79,21 @@ class ProposalController extends Controller
         $prodi = Prodi::where('status_prodi', true)->get();
         $bidangPenelitian = BidangPenelitian::where('status_bidang', true)->get();
 
+        // Generate kode proposal otomatis
+        $kodeProposal = 'PR-' . date('Y') . '-' . str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
+
+        // Cek duplikasi
+        while (Proposal::where('kode_proposal', $kodeProposal)->exists()) {
+            $kodeProposal = 'PR-' . date('Y') . '-' . str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
+        }
+
         return view('admin.proposal.create', compact(
             'periodeSkema',
             'dosen',
             'fakultas',
             'prodi',
-            'bidangPenelitian'
+            'bidangPenelitian',
+            'kodeProposal'
         ));
     }
 

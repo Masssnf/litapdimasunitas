@@ -140,25 +140,6 @@
                         @enderror
                     </div>
 
-                    {{-- <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                            Periode Skema <span class="text-rose-500">*</span>
-                        </label>
-                        <select name="periode_skema_id"
-                            class="w-full rounded-xl border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="">Pilih Periode Skema</option>
-                            @foreach ($periodeSkema as $item)
-                                <option value="{{ $item->id }}"
-                                    {{ old('periode_skema_id') == $item->id ? 'selected' : '' }}>
-                                    {{ $item->periode->kode_periode ?? '' }} - {{ $item->skema->nama_skema ?? '' }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('periode_skema_id')
-                            <p class="text-rose-500 text-sm">{{ $message }}</p>
-                        @enderror
-                    </div> --}}
-
                     <div>
                         <label for="periode_skema_id" class="block text-sm font-medium text-gray-700 mb-1.5">
                             Periode Skema <span class="text-rose-500">*</span>
