@@ -135,7 +135,7 @@
                                 <i class="fas fa-user-tag text-gray-400"></i>
                             </div>
                             <select name="role" id="role"
-                                class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+                                class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition" data-placeholder="Pilih Role"
                                 required>
                                 <option value="">Pilih Role</option>
                                 @foreach ($roles as $role)
@@ -236,7 +236,7 @@
                                         <i class="fas fa-venus-mars text-gray-400"></i>
                                     </div>
                                     <select name="jenis_kelamin" id="jenis_kelamin"
-                                        class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
+                                        class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition" data-placeholder="Pilih Jenis Kelamin">
                                         <option value="">Pilih Jenis Kelamin</option>
                                         <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>
                                             Laki-laki</option>
@@ -260,7 +260,7 @@
                                         <i class="fas fa-university text-gray-400"></i>
                                     </div>
                                     <select name="fakultas_id" id="fakultas_id"
-                                        class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
+                                        class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition" data-placeholder="Pilih Fakultas">
                                         <option value="">Pilih Fakultas</option>
                                         @foreach ($fakultas as $item)
                                             <option value="{{ $item->id }}"
@@ -286,7 +286,7 @@
                                         <i class="fas fa-book-open text-gray-400"></i>
                                     </div>
                                     <select name="prodi_id" id="prodi_id"
-                                        class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
+                                        class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition" data-placeholder="Pilih Prodi">
                                         <option value="">Pilih Program Studi</option>
                                         @foreach ($prodi as $item)
                                             <option value="{{ $item->id }}"
@@ -422,7 +422,7 @@
                                     <i class="fas fa-tags text-gray-400"></i>
                                 </div>
                                 <select name="jenisreviewer_id" id="jenisreviewer_id"
-                                    class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
+                                    class="select2 w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition" data-placeholder="Pilih Jenis Reviewer">
                                     <option value="">Pilih Jenis Reviewer</option>
                                     @foreach ($jenisReviewer as $item)
                                         <option value="{{ $item->id }}"

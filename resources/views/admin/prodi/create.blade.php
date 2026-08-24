@@ -214,8 +214,8 @@
                         </label>
                         <select name="status_prodi" id="status_prodi" class="select2 w-full"
                             data-placeholder="Pilih Status" data-allow-clear="false" data-search="-1" required>
-                            <option value="1" {{ old('status_prodi') == '1' ? 'selected' : '' }}>✅ Aktif</option>
-                            <option value="0" {{ old('status_prodi') == '0' ? 'selected' : '' }}>❌ Nonaktif</option>
+                            <option value="1" {{ old('status_prodi') == '1' ? 'selected' : '' }}>Aktif</option>
+                            <option value="0" {{ old('status_prodi') == '0' ? 'selected' : '' }}>Nonaktif</option>
                         </select>
                         @error('status_prodi')
                             <p class="mt-1 text-sm text-rose-600 flex items-center gap-1">
@@ -254,17 +254,6 @@
                 templateResult: formatStatus,
                 templateSelection: formatStatusSelection
             });
-
-            function formatStatus(state) {
-                if (!state.id) return state.text;
-                var isActive = state.id == 1;
-                var dotColor = isActive ? 'bg-emerald-500' : 'bg-rose-500';
-                var textColor = isActive ? 'text-emerald-600' : 'text-rose-600';
-                return $('<span class="flex items-center gap-2">' +
-                    '<span class="w-2 h-2 rounded-full ' + dotColor + '"></span>' +
-                    '<span class="' + textColor + ' font-medium">' + state.text + '</span>' +
-                    '</span>');
-            }
 
             function formatStatusSelection(state) {
                 if (!state.id) return state.text;
